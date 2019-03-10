@@ -20,7 +20,8 @@ public class ProductResourceServerConfigurer extends ResourceServerConfigurerAda
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/prod/add","/user/login").permitAll()//配置不需要验证的接口
+                .antMatchers("/prod/add","/user/login",
+                        "/hi", "/hystrix", "/hystrix/**", "/actuator/hystrix.stream").permitAll()//配置不需要验证的接口
                 .antMatchers("/**").authenticated()//其他所有接口需要验证
                 .and()
                 .httpBasic()

@@ -1,0 +1,11 @@
+F:\spring-proj\micro-base-service\cloudparent\cloud-app-service\cloud-service-prod-jwt\src\main\java\mis\berritus\cloud\service\prod\feign\client\conf\DemoFeignConfig.java
+F:\spring-proj\micro-base-service\cloudparent\cloud-app-service\cloud-service-prod-jwt\src\main\java\mis\berritus\cloud\service\prod\service\impl\DemoServiceImpl.java
+F:\spring-proj\micro-base-service\cloudparent\cloud-app-service\cloud-service-prod-jwt\src\main\java\mis\berritus\cloud\service\prod\feign\client\AuthServiceClient.java
+F:\spring-proj\micro-base-service\cloudparent\cloud-app-service\cloud-service-prod-jwt\src\main\java\mis\berritus\cloud\service\prod\feign\client\fallback\AuthServiceClientFallBack.java
+F:\spring-proj\micro-base-service\cloudparent\cloud-app-service\cloud-service-prod-jwt\src\main\java\mis\berritus\cloud\service\prod\conf\OAuth2ClientConfig.java
+F:\spring-proj\micro-base-service\cloudparent\cloud-app-service\cloud-service-prod-jwt\src\main\java\mis\berritus\cloud\service\prod\conf\ProductResourceServerConfigurer.java
+F:\spring-proj\micro-base-service\cloudparent\cloud-app-service\cloud-service-prod-jwt\src\main\java\mis\berritus\cloud\service\prod\dao\SysProductMapper.java
+F:\spring-proj\micro-base-service\cloudparent\cloud-app-service\cloud-service-prod-jwt\src\main\java\mis\berritus\cloud\service\prod\service\DemoService.java
+F:\spring-proj\micro-base-service\cloudparent\cloud-app-service\cloud-service-prod-jwt\src\main\java\mis\berritus\cloud\service\prod\conf\ProductServerJwtApplication.java
+F:\spring-proj\micro-base-service\cloudparent\cloud-app-service\cloud-service-prod-jwt\src\main\java\mis\berritus\cloud\service\prod\controller\DemoController.java
+F:\spring-proj\micro-base-service\cloudparent\cloud-app-service\cloud-service-prod-jwt\src\main\java\mis\berritus\cloud\service\prod\conf\MisJwtConfig.java

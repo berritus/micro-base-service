@@ -15,6 +15,11 @@
     <modules>
         <module>cloud-service-cust</module>
         <module>cloud-service-ribbon</module>
+        <module>cloud-service-prod</module>
+        <module>cloud-service-prod-jwt</module>
+        <module>cloud-app-bean</module>
+        <module>cloud-app-common</module>
     </modules>
+
 
 </project>

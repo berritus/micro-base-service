@@ -17,7 +17,9 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
@@ -27,9 +29,9 @@ import javax.sql.DataSource;
 public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
-    //@Qualifier("dataSource")
     private DataSource dataSource;
     @Autowired
+    @Qualifier("tokenStore")
     private JdbcTokenStore tokenStore;
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -38,6 +40,7 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private AuthorizationCodeServices authorizationCodeServices;
     @Autowired
+    @Qualifier("redisTokenStore")
     private RedisTokenStore redisTokenStore;
 
     @Autowired
@@ -77,6 +80,7 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        //存储在数据库里
         endpoints
                 .tokenStore(tokenStore)//数据库保存token oauth_access_token & oauth_refresh_token
                 //.tokenStore(redisTokenStore)//redis存储

@@ -1,6 +1,7 @@
 package mis.berritus.cloud.bean.service.cust;
 
-import com.berritus.mis.core.bean.MisBean;
+
+import mis.berritus.cloud.bean.base.MisBean;
 
 import java.util.Date;
 

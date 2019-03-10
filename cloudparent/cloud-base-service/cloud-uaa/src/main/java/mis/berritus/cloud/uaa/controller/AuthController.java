@@ -25,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAuthority('ROLE_OAUTH_CLIENT_ADMIN')")
+    //@PreAuthorize("hasAuthority('ROLE_OAUTH_CLIENT_ADMIN')")
     public String insertOauthClientDetails(@RequestBody OauthClientDetails record){
         authService.insertOauthClientDetails(record);
         return "0";

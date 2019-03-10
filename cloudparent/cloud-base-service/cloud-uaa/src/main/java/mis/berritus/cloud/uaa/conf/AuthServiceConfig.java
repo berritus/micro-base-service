@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,7 +14,11 @@ import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
@@ -40,24 +45,14 @@ public class AuthServiceConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean("dataSource")
-//    public DataSource dataSource(){
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName(driverClassName);
-//        dataSource.setUrl(url);
-//        dataSource.setUsername(username);
-//        dataSource.setPassword(password);
-//        return dataSource;
-//    }
-
     // 声明TokenStore实现
-    @Bean
+    @Bean("tokenStore")
     public JdbcTokenStore tokenStore(){
         //使用指定的 DataSource 存储我们所有的OAuth2数据
         return new JdbcTokenStore(dataSource);
     }
 
-    @Bean
+    @Bean("redisTokenStore")
     public RedisTokenStore redisTokenStore(){
         return new RedisTokenStore(redisConnectionFactory);
     }

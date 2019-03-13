@@ -19,7 +19,7 @@ public class MyFallbackProvider implements FallbackProvider {
     @Override
     public String getRoute() {
         //只对eureka-cli-ribbon开启熔断功能，*是所有开启
-        return "eureka-cli-ribbon";
+        return "cloud-service-prod";
     }
 
     @Override

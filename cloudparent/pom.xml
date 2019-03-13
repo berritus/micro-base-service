@@ -85,6 +85,11 @@
                 <artifactId>cloud-dao</artifactId>
                 <version>${module.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.berritus.mis</groupId>
+                <artifactId>mis-core-cache</artifactId>
+                <version>${core.module.version}</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>

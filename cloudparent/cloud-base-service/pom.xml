@@ -21,6 +21,7 @@
         <module>cloud-dao</module>
         <module>cloud-monitor</module>
         <module>cloud-zuul</module>
+        <module>cloud-message</module>
     </modules>
 
 </project>

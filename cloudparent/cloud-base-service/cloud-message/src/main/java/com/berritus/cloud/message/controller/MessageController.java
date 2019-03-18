@@ -3,17 +3,14 @@ package com.berritus.cloud.message.controller;
 import com.berritus.cloud.message.service.MessageService;
 import mis.berritus.cloud.bean.message.TbSysMqMsg;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MessageController {
     @Autowired
     private MessageService messageService;
 
-    @RequestMapping("/")
+    @GetMapping("")
     public String index(){
         return "this is message system";
     }

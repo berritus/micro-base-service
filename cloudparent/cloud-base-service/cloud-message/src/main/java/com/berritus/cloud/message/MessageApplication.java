@@ -1,5 +1,6 @@
 package com.berritus.cloud.message;
 
+import com.berritus.mis.core.cache.annotation.EnableMisCache;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableEurekaClient
 @EnableTransactionManagement
 @EnableScheduling
+@EnableMisCache
 @EnableFeignClients(basePackages = {"com.berritus.cloud.message.feign.client"})
 public class MessageApplication {
     public static void main(String[] args){

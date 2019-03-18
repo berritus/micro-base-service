@@ -30,8 +30,8 @@ public class MessageTask {
     private QryMessageService qryMessageService;
     @Autowired
     private MessageService messageService;
-    @Autowired
-    private CustServerClient custServerClient;
+    //@Autowired
+    //private CustServerClient custServerClient;
 
     @Scheduled(fixedRate = 60000)
     public void reportCurrentTime(){
@@ -58,7 +58,8 @@ public class MessageTask {
             PageInfo<TbSysMqMsg> plist = qryMessageService.qrySysMqMsg(bean, page);
             List<TbSysMqMsg> list = plist.getList();
             if(list == null || list.size() == 0){
-                return;
+                System.out.println("handle total " + list.size());
+                throw new RuntimeException("handle total " + list.size());
             }
 
             System.out.println("handle total " + list.size());
@@ -77,7 +78,9 @@ public class MessageTask {
 
             long endTime = System.currentTimeMillis();
             System.out.println("use times " + (endTime - startTime));
-        }finally{
+        } catch(Exception e) {
+
+        } finally{
             if(flag){
                 redisTemplate.delete(MessageConstant.MESSAGE_TASK_KEY);
             }

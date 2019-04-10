@@ -19,6 +19,7 @@
         <module>cloud-service-prod-jwt</module>
         <module>cloud-app-bean</module>
         <module>cloud-app-common</module>
+        <module>cloud-service-sonar</module>
     </modules>
 
 

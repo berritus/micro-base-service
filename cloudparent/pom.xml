@@ -76,6 +76,11 @@
                 <version>2.1.1.RELEASE</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.2</version>
+            </dependency>
+            <dependency>
                 <groupId>mis.berritus.cloud</groupId>
                 <artifactId>cloud-common</artifactId>
                 <version>${module.version}</version>

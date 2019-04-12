@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan({"mis.berritus.cloud.service.sonar"})
+@ComponentScan({"mis.berritus.cloud.service.sonar", "mis.berritus.cloud.app.common"})
 @EnableEurekaClient
 @SpringBootApplication
 public class CloudServiceSonarApplication {

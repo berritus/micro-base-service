@@ -13,7 +13,8 @@ import java.util.Map;
 @Component
 public class ExcelServiceImpl implements ExcelService {
     @Override
-    public void exportList(String fileName, List<String> header, Map<Integer, List<String>> dataMap, OutputStream outputStream)
+    public void exportList(String fileName, List<String> header, Map<String, List<String>> dataMap,
+                           OutputStream outputStream)
     throws InvocationTargetException, IllegalAccessException{
         //声明一个工作簿
         HSSFWorkbook workbook = new HSSFWorkbook();
@@ -39,15 +40,17 @@ public class ExcelServiceImpl implements ExcelService {
         }
 
         //遍历结果集，把内容加入表格
-        int len = dataMap.size();
-        for(int i = 0; i < len; i++){
-            HSSFRow row1 = sheet.createRow(i + 1);
-            List<String> list = dataMap.get(i);
+        int i = 1;
+        for(Map.Entry<String, List<String>> enrty : dataMap.entrySet()){
+            HSSFRow row1 = sheet.createRow(i);
+            List<String> list = enrty.getValue();
             for(int j = 0; j < list.size(); j++){
                 HSSFCell cell = row1.createCell(j);
                 HSSFRichTextString text = new HSSFRichTextString(list.get(j));
                 cell.setCellValue(text);
             }
+
+            i++;
         }
 
         try {

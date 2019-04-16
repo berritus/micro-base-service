@@ -7,19 +7,23 @@ import mis.berritus.cloud.app.common.component.ExcelService;
 import mis.berritus.cloud.app.common.utils.HttpUtils;
 import mis.berritus.cloud.app.common.utils.SonarValueUtil;
 import mis.berritus.cloud.service.sonar.service.SonarService;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class SonarController {
+    private Logger logger = LoggerFactory.getLogger(SonarController.class);
+
     @Autowired
     private ExcelService excelService;
     @Autowired
@@ -39,42 +43,38 @@ public class SonarController {
         return resultBean;
     }
 
-    //http://localhost:8107/sonar/analysis_date
+    //http://localhost:8107/sonar/analysis_date?projs=saas0319
     @GetMapping("/sonar/analysis_date")
-    public void exportAnalysisDate(HttpServletResponse response){
+    public void exportAnalysisDate(HttpServletResponse response, HttpServletRequest request){
         try{
-            List<String> header = new ArrayList<>();
-            //header.add("1111");
-            Map<Integer, List<String>> dataMap = new HashMap<>();
-            //dataMap.put(0, header);
-
-            ResultBean resultBean = sonarService.getSonarData("mdproj,comproj");
-            if(resultBean == null){
+            String projs = request.getParameter("projs");
+            if(StringUtils.isEmpty(projs)){
                 return;
             }
 
-            List<Measures> measures = resultBean.getMeasures();
-            List<String> datas = new ArrayList<>();
-            List<String> datas2 = new ArrayList<>();
-            for(Measures bean : measures){
-                if("comproj".equals(bean.getComponent())){
-                    header.add(SonarValueUtil.getMetric(bean.getMetric()));
-                    datas.add(bean.getValue());
-                }else if("mdproj".equals(bean.getComponent())){
-                    datas2.add(bean.getValue());
-                }
-            }
-
-            dataMap.put(0, datas);
-            dataMap.put(1, datas2);
-
-            response.setContentType("application/octet-stream");
-            response.setHeader("Content-disposition", "attachment;filename=student.xls");
+            response.setContentType("application/octet-stream;charset=utf-8");
+            response.setHeader("Content-disposition", "attachment;filename=" +
+                    new String("项目代码质量分析".getBytes("utf-8"),"ISO-8859-1" ) + ".xls");
             response.flushBuffer();
-            excelService.exportList("hello", header, dataMap, response.getOutputStream());
+            sonarService.analysisDate("总概况", projs, response.getOutputStream());
         }catch(Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
+    }
 
+    // http://localhost:8107/sonar/issues/search?proj=saas0319
+    @GetMapping("/sonar/issues/search")
+    public void exportIssuesSearch(HttpServletResponse response, HttpServletRequest request){
+        try{
+            String proj = request.getParameter("proj");
+
+            response.setContentType("application/octet-stream;charset=utf-8");
+            response.setHeader("Content-disposition", "attachment;filename=" +
+                    new String("项目代码质量分析".getBytes("utf-8"),"ISO-8859-1" ) + ".xls");
+            response.flushBuffer();
+            sonarService.issuesSearch("总概况", proj, response.getOutputStream());
+        }catch(Exception e){
+            logger.error(e.getMessage());
+        }
     }
 }

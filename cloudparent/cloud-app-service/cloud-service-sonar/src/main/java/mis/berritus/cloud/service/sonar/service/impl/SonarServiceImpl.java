@@ -5,6 +5,7 @@ import mis.berritus.cloud.app.bean.sonar.Measures;
 import mis.berritus.cloud.app.bean.sonar.ResultBean;
 import mis.berritus.cloud.app.common.component.ExcelService;
 import mis.berritus.cloud.app.common.utils.SonarValueUtil;
+import mis.berritus.cloud.service.sonar.constant.SonarConstant;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ public class SonarServiceImpl extends AbstractSonarService {
     @Override
     public void analysisDate(String title, String projs, OutputStream outputStream) {
         List<String> header = new ArrayList<>();
-        header.add("项目");
+        header.add("项目名");
 
         ResultBean resultBean = getSonarData(projs, sonarHostUrl, "analysis_date");
         if(resultBean == null){
@@ -80,31 +81,50 @@ public class SonarServiceImpl extends AbstractSonarService {
     }
 
     @Override
-    public void issuesSearch(String title, String projs, OutputStream outputStream) {
+    public void issuesSearch(String title, String projs, String types, OutputStream outputStream) {
         List<String> header = new ArrayList<>();
-        header.add("哈希值");
+        header.add("编号");
         header.add("文件路径");
         header.add("问题");
         header.add("行数");
 
-        ResultBean resultBean = getSonarData(projs, sonarHostUrl, "issues_search");
-        if(resultBean == null){
-            return;
-        }
-
-        List<IssuesBean> issues = resultBean.getIssues();
-        if(issues == null || issues.size() == 0){
-            return;
-        }
-
         Map<String, List<String>> dataMap = new HashMap<>();
-        for(IssuesBean issuesBean : issues){
-            List<String> data = new ArrayList<>();
-            data.add(issuesBean.getHash());
-            data.add(issuesBean.getComponent());
-            data.add(issuesBean.getMessage());
-            data.add(issuesBean.getLine() + "");
-            dataMap.put(issuesBean.getKey(), data);
+        boolean finishFlag = false;
+        long count = 0;
+
+        int pagesNum = 0;
+
+        while(!finishFlag){
+            pagesNum++;
+            ResultBean resultBean = getSonarIssuesData(projs,types, pagesNum,
+                    SonarConstant.DEFAULT_PAGE_SIZE, sonarHostUrl);
+            if(resultBean == null){
+                break;
+            }
+
+            Long total = resultBean.getTotal();
+            if(total == null){
+                return;
+            }
+
+            List<IssuesBean> issues = resultBean.getIssues();
+            if(issues == null || issues.size() == 0){
+                break;
+            }
+
+            for(IssuesBean issuesBean : issues){
+                List<String> data = new ArrayList<>();
+                data.add(issuesBean.getHash());
+                data.add(issuesBean.getComponent());
+                data.add(issuesBean.getMessage());
+                data.add(issuesBean.getLine() + "");
+                dataMap.put(issuesBean.getKey(), data);
+            }
+
+            count += issues.size();
+            if(count >= total){
+                finishFlag = true;
+            }
         }
 
         try {

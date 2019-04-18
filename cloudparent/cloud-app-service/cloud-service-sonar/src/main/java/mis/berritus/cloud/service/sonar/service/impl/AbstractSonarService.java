@@ -27,9 +27,8 @@ public abstract class AbstractSonarService implements SonarService {
 		if("analysis_date".equals(type)){
 			url = SonarConstant.API_MEASURES_SEARCH;
 		}else if("issues_search".equals(type)){
-			url = SonarConstant.API_ISSUES_SEARCH;
+			//url = SonarConstant.API_ISSUES_SEARCH;
 		}
-
 
 		url = sonarHostUrl + url.replace("${}", keys);
 		String str = HttpUtils.doGet(url, headers, null);
@@ -38,6 +37,16 @@ public abstract class AbstractSonarService implements SonarService {
 	}
 
 
+	public ResultBean getSonarIssuesData(String componentKeys, String types,
+										 Integer pages, Integer pageSize, String sonarHostUrl){
+		Map<String, String> headers = new HashMap<>();
+		String url = sonarHostUrl + "/api/issues/search?componentKeys=" + componentKeys
+				+ "&s=FILE_LINE&resolved=false&types="+ types + "&ps=" + pageSize
+				+ "&organization=default-organization&p=" + pages + "&additionalFields=_all";
+		String str = HttpUtils.doGet(url, headers, null);
+		ResultBean resultBean = JSON.parseObject(str, ResultBean.class);
+		return resultBean;
+	}
 	/**
 	 * 生成所有项目的数据存储区域
 	 * @param projArray

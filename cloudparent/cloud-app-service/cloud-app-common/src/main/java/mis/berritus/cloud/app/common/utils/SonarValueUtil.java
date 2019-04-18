@@ -7,11 +7,11 @@ public class SonarValueUtil {
             case "alert_status":
                 return "状态";
             case "bugs":
-                return "Bugs";
+                return "Bugs(个)";
             case "vulnerabilities":
-                return "漏洞";
+                return "漏洞(个)";
             case "code_smells":
-                return "异味";
+                return "异味(个)";
             case "coverage":
                 return "覆盖率(%)";
             case "duplicated_lines_density":

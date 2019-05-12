@@ -6,6 +6,7 @@ import mis.berritus.cloud.bean.uaa.SysUser;
 import mis.berritus.cloud.service.prod.feign.client.conf.DemoFeignConfig;
 import mis.berritus.cloud.service.prod.feign.client.fallback.AuthServiceClientFallBack;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;

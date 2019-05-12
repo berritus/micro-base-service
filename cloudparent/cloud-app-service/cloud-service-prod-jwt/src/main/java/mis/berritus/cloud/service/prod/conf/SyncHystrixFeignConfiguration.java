@@ -12,11 +12,12 @@ import org.springframework.context.annotation.Scope;
 @EnableCircuitBreaker
 public class SyncHystrixFeignConfiguration {
 
-    @Bean
-    @Scope("prototype")
-    public Feign.Builder feignHystrixBuild(){
-        return Feign.builder();
-    }
+    // 接入zipkin启动报错，所以把这里注释了就可以
+//    @Bean
+//    @Scope("prototype")
+//    public Feign.Builder feignHystrixBuild(){
+//        return Feign.builder();
+//    }
 
     //http://localhost:8096/hystrix
     //http://localhost:8096/actuator/hystrix.stream

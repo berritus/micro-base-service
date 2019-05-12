@@ -9,6 +9,7 @@ import mis.berritus.cloud.service.prod.feign.client.AuthServiceClient;
 import mis.berritus.cloud.service.prod.service.DemoService;
 import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ public class DemoController {
     @Autowired
     private DemoService demoService;
     @Autowired
+    //@Qualifier("misAuthServiceClient")
     private AuthServiceClient authServiceClient;
 
     @RequestMapping(method = RequestMethod.GET, value = "/prod/add")

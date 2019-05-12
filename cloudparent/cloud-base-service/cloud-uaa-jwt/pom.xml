@@ -91,6 +91,18 @@
             <version>1.3.4.RELEASE</version>
         </dependency>
         -->
+        <!---->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+        <!-- 用elasticsearch不需要加rabbit -->
+        <!--
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
+        </dependency>
+        -->
     </dependencies>
 
     <build>

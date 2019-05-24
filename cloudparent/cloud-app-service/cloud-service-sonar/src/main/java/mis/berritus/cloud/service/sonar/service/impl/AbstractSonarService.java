@@ -42,7 +42,8 @@ public abstract class AbstractSonarService implements SonarService {
 		Map<String, String> headers = new HashMap<>();
 		String url = sonarHostUrl + "/api/issues/search?componentKeys=" + componentKeys
 				+ "&s=FILE_LINE&resolved=false&types="+ types + "&ps=" + pageSize
-				+ "&organization=default-organization&p=" + pages + "&additionalFields=_all";
+				+ "&organization=default-organization&p=" + pages + "&additionalFields=_all" +
+				"&facets=severities,types&sinceLeakPeriod=true";
 		String str = HttpUtils.doGet(url, headers, null);
 		ResultBean resultBean = JSON.parseObject(str, ResultBean.class);
 		return resultBean;

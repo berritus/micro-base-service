@@ -3,6 +3,7 @@ package mis.berritus.cloud.service.sonar.service.impl;
 import com.alibaba.fastjson.JSON;
 import mis.berritus.cloud.app.bean.sonar.ResultBean;
 import mis.berritus.cloud.app.common.utils.HttpUtils;
+import mis.berritus.cloud.bean.base.Page;
 import mis.berritus.cloud.service.sonar.constant.SonarConstant;
 import mis.berritus.cloud.service.sonar.service.SonarService;
 import org.apache.commons.lang.StringUtils;
@@ -21,6 +22,12 @@ import java.util.Map;
  */
 public abstract class AbstractSonarService implements SonarService {
 
+	/**
+	 * @Description:
+	 * @Author: Qin Guihe
+	 * @Create: 2019/5/27
+	 * @return: 
+	 */
 	public ResultBean getSonarData(String keys, String sonarHostUrl, String type) {
 		Map<String, String> headers = new HashMap<>();
 		String url = "";
@@ -37,17 +44,28 @@ public abstract class AbstractSonarService implements SonarService {
 	}
 
 
-	public ResultBean getSonarIssuesData(String componentKeys, String types,
-										 Integer pages, Integer pageSize, String sonarHostUrl){
+	/**
+	 * @Description:
+	 * @Author: Qin Guihe
+	 * @Create: 2019/5/27
+	 * @return: 
+	 */
+	public ResultBean getSonarIssuesData(String componentKeys, String types, Page page, String sonarHostUrl,
+										 boolean isNew){
 		Map<String, String> headers = new HashMap<>();
 		String url = sonarHostUrl + "/api/issues/search?componentKeys=" + componentKeys
-				+ "&s=FILE_LINE&resolved=false&types="+ types + "&ps=" + pageSize
-				+ "&organization=default-organization&p=" + pages + "&additionalFields=_all" +
-				"&facets=severities,types&sinceLeakPeriod=true";
+				+ "&s=FILE_LINE&resolved=false&types="+ types + "&ps=" + page.getPageSize()
+				+ "&organization=default-organization&p=" + page.getPageNum() + "&additionalFields=_all";
+
+		if (isNew) {
+			url += "&facets=severities,types&sinceLeakPeriod=true";
+		}
+
 		String str = HttpUtils.doGet(url, headers, null);
 		ResultBean resultBean = JSON.parseObject(str, ResultBean.class);
 		return resultBean;
 	}
+	
 	/**
 	 * 生成所有项目的数据存储区域
 	 * @param projArray

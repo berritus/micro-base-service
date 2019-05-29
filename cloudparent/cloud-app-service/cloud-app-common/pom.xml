@@ -24,6 +24,11 @@
             <artifactId>cloud-common</artifactId>
         </dependency>
         <dependency>
+            <groupId>mis.berritus.cloud</groupId>
+            <artifactId>cloud-app-bean</artifactId>
+            <version>${module.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>

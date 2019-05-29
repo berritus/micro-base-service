@@ -87,4 +87,30 @@ public class SonarController {
             logger.error(e.getMessage());
         }
     }
+
+    @GetMapping("/sonar/issues/search/all")
+    public void exportIssuesSearchForAllProj(HttpServletResponse response, HttpServletRequest request){
+        try{
+            String projs = request.getParameter("projs");
+            String types = request.getParameter("types");
+            String isNew = request.getParameter("isNew");
+
+            if(StringUtils.isEmpty(projs) || StringUtils.isEmpty(types) || StringUtils.isEmpty(isNew)){
+                throw new RuntimeException("参数不能为空！");
+            }
+
+            String[] listProjs = projs.split(",");
+
+            boolean flag = false;
+            if ("1".equals(isNew)) {
+                flag = true;
+            }
+
+            SonarUtil.setResponseBaseInfo(response, "详细清单");
+
+            sonarService.issuesSearchForAllProj(listProjs, types, flag, response.getOutputStream());
+        }catch(Exception e){
+            logger.error(e.getMessage());
+        }
+    }
 }

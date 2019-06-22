@@ -1,5 +1,6 @@
 package mis.berritus.cloud.elasticsearch.conf;
 
+import com.berritus.mis.core.cache.annotation.EnableMisCache;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -18,10 +19,11 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableEurekaClient
 @ComponentScan({"mis.berritus.cloud.elasticsearch"})
 @SpringBootApplication
-@EnableFeignClients(basePackages = {"mis.berritus.cloud.service.prod.feign.client"})
+@EnableFeignClients(basePackages = {"mis.berritus.cloud.elasticsearch.feign.client"})
 @EnableHystrix//开启熔断器功能
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableHystrixDashboard//断路器仪表盘
+@EnableMisCache
 public class ElasticSearchApplication {
     public static void main(String[] args) {
         SpringApplication.run(ElasticSearchApplication.class);

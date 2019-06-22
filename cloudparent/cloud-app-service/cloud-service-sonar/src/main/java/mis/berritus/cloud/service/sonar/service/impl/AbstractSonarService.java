@@ -1,8 +1,8 @@
 package mis.berritus.cloud.service.sonar.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.berritus.mis.core.component.utils.HttpUtil;
 import mis.berritus.cloud.app.bean.sonar.ResultBean;
-import mis.berritus.cloud.app.common.utils.HttpUtils;
 import mis.berritus.cloud.bean.base.Page;
 import mis.berritus.cloud.service.sonar.constant.SonarConstant;
 import mis.berritus.cloud.service.sonar.service.SonarService;
@@ -38,7 +38,7 @@ public abstract class AbstractSonarService implements SonarService {
 		}
 
 		url = sonarHostUrl + url.replace("${}", keys);
-		String str = HttpUtils.doGet(url, headers, null);
+		String str = HttpUtil.get(url, headers, null);
 		ResultBean resultBean = JSON.parseObject(str, ResultBean.class);
 		return resultBean;
 	}
@@ -61,7 +61,7 @@ public abstract class AbstractSonarService implements SonarService {
 			url += "&facets=severities,types&sinceLeakPeriod=true";
 		}
 
-		String str = HttpUtils.doGet(url, headers, null);
+		String str = HttpUtil.get(url, headers, null);
 		ResultBean resultBean = JSON.parseObject(str, ResultBean.class);
 		return resultBean;
 	}

@@ -112,7 +112,11 @@
                 <artifactId>mis-core-dao</artifactId>
                 <version>${core.module.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.berritus.core</groupId>
+                <artifactId>mis-core-component</artifactId>
+                <version>${core.module.version}</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>

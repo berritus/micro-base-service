@@ -3,7 +3,7 @@ package com.berritus.cloud.message.task;
 import com.berritus.cloud.message.feign.client.CustServerClient;
 import com.berritus.cloud.message.service.MessageService;
 import com.berritus.cloud.message.service.QryMessageService;
-import com.berritus.mis.core.cache.redis.RedisService;
+import com.berritus.mis.core.cache.redis.IRedisService;
 import com.github.pagehelper.PageInfo;
 import mis.berritus.cloud.bean.base.Page;
 import mis.berritus.cloud.bean.message.TbSysMqMsg;
@@ -23,7 +23,7 @@ public class MessageTask {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Autowired
-    private RedisService redisService;
+    private IRedisService redisService;
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired

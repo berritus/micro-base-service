@@ -3,7 +3,7 @@
 	<contextName>mislog</contextName>
 	<!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
 	<!---->
-	<property name="LOG_HOME" value="D:/mylog" />
+	<property name="LOG_HOME" value="F:/IdeaProjects/mylog/cloud-service-sonar" />
 
 	<!--
 	<property name="LOG_HOME" value="/root/mylog" />
@@ -18,10 +18,11 @@
 	<!-- 日志文件扩展名 -->
 	<property name="LOG_EXTFILE" value="log" />
 
+	<!--TRACE < DEBUG < INFO < WARN < ERROR < FATAL-->
 	<!-- 控制台输出 -->
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>INFO</level>
+			<level>DEBUG</level>
 		</filter>
 		<encoder>
 			<pattern>${PATTERN}</pattern>
@@ -30,14 +31,14 @@
 	</appender>
 
 	<!-- 按照每天生成日志文件 -->
-	<appender name="CUST_SERVER_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<appender name="DEFAULT_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<encoder>
 			<pattern>${PATTERN}</pattern>
 			<charset>UTF-8</charset>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!--日志文件输出的文件名-->
-			<FileNamePattern>${LOG_HOME}/cust_server.%d{yyyyMMdd}.%i.${LOG_EXTFILE}</FileNamePattern>
+			<FileNamePattern>${LOG_HOME}/default.%d{yyyyMMdd}.%i.${LOG_EXTFILE}</FileNamePattern>
 			<!--日志文件保留天数-->
 			<MaxHistory>${MAX_HISTORY}</MaxHistory>
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -65,15 +66,16 @@
 	</appender>
 
 	<!--  -->
-	<logger name="com.berritus.cloud.service.cust" level="WARN" additivity="false">
-		<appender-ref ref="CUST_SERVER_APPENDER" />
+	<logger name="mis.berritus.cloud.service.sonar" level="WARN" additivity="false">
+		<appender-ref ref="DEFAULT_APPENDER" />
 	</logger>
 	<!-- mybatis 打印sql -->
-	<logger name="com.berritus.cloud.dao.mapper" level="DEBUG" additivity="false">
+	<logger name="mis.berritus.cloud.service.dao" level="DEBUG" additivity="false">
 		<appender-ref ref="DBLOG_APPENDER" />
+		<appender-ref ref="CONSOLE" />
 	</logger>
 	<!-- root -->
-	<root level="DEBUG">
+	<root level="INFO">
 		<appender-ref ref="CONSOLE" />
 	</root>
 </configuration>

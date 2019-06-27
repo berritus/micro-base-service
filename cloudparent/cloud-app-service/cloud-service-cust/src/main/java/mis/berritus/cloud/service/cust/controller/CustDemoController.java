@@ -34,7 +34,7 @@ public class CustDemoController {
 
     //http://localhost:8105/cust/qry?custId=100011
     @PostMapping("/cust/qry")
-    public MisCustBase qryMisCustBase(Integer custId){
+    public MisCustBase qryMisCustBase(String custId){
         return queryService.qryMisCustBase(custId);
     }
 }

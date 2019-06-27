@@ -1,6 +1,7 @@
 package mis.berritus.cloud.elasticsearch.service;
 
 import mis.berritus.cloud.app.bean.elasticsearch.ElasticsearchRespone;
+import mis.berritus.cloud.app.bean.elasticsearch.MisCustBaseExt;
 
 /**
  * @Description:
@@ -14,4 +15,6 @@ public interface IElasticSearchService {
     ElasticsearchRespone createIndex(String indexName);
 
     ElasticsearchRespone deleteIndex(String indexName);
+
+    MisCustBaseExt insertMisCustBase(MisCustBaseExt misCustBaseExt);
 }

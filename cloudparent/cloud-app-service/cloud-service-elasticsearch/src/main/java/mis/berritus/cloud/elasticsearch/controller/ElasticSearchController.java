@@ -1,11 +1,11 @@
 package mis.berritus.cloud.elasticsearch.controller;
 
 import mis.berritus.cloud.app.bean.elasticsearch.ElasticsearchRespone;
+import mis.berritus.cloud.app.bean.elasticsearch.MisCustBaseExt;
+import mis.berritus.cloud.bean.service.cust.MisCustBase;
 import mis.berritus.cloud.elasticsearch.service.IElasticSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Description:
@@ -40,4 +40,9 @@ public class ElasticSearchController {
         return elasticSearchService.deleteIndex(indexName);
     }
 
+    @PostMapping("/cust/insertMisCustBase")
+    public MisCustBaseExt insertMisCustBase(@RequestBody MisCustBaseExt misCustBaseExt) {
+        elasticSearchService.insertMisCustBase(misCustBaseExt);
+        return null;
+    }
 }

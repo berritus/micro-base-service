@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class MisCustBase extends MisBean {
     private static final long serialVersionUID = -9085805791899768591L;
-    private Integer custId;
+    private String custId;
 
     private String account;
 
@@ -29,11 +29,11 @@ public class MisCustBase extends MisBean {
 
     private Date crtDate;
 
-    public Integer getCustId() {
+    public String getCustId() {
         return custId;
     }
 
-    public void setCustId(Integer custId) {
+    public void setCustId(String custId) {
         this.custId = custId;
     }
 

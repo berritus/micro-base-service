@@ -5,6 +5,6 @@ import mis.berritus.cloud.dao.MisDao;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MisCustBaseMapper extends MisDao<MisCustBase, Integer> {
+public interface MisCustBaseMapper extends MisDao<MisCustBase, String> {
 
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mis.berritus.cloud.service.cust.dao.MisCustBaseMapper">
   <resultMap id="BaseResultMap" type="mis.berritus.cloud.bean.service.cust.MisCustBase">
-    <id column="cust_id" jdbcType="INTEGER" property="custId" />
+    <id column="cust_id" jdbcType="VARCHAR" property="custId" />
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="cert_name" jdbcType="VARCHAR" property="certName" />
@@ -18,23 +18,22 @@
     cust_id, account, password, cert_name, cert_id, sex, email, mobile, state, state_date, 
     crt_date
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from mis_cust_base
-    where cust_id = #{custId,jdbcType=INTEGER}
+    where cust_id = #{custId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from mis_cust_base
-    where cust_id = #{custId,jdbcType=INTEGER}
+    where cust_id = #{custId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="mis.berritus.cloud.bean.service.cust.MisCustBase"
-   useGeneratedKeys="true" keyColumn="cust_id" keyProperty="custId">
+  <insert id="insert" parameterType="mis.berritus.cloud.bean.service.cust.MisCustBase">
     insert into mis_cust_base (cust_id, account, password, 
       cert_name, cert_id, sex, 
       email, mobile, state, 
       state_date, crt_date)
-    values (#{custId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{custId,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{certName,jdbcType=VARCHAR}, #{certId,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, 
       #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, 
       #{stateDate,jdbcType=TIMESTAMP}, #{crtDate,jdbcType=TIMESTAMP})
@@ -78,7 +77,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="custId != null">
-        #{custId,jdbcType=INTEGER},
+        #{custId,jdbcType=VARCHAR},
       </if>
       <if test="account != null">
         #{account,jdbcType=VARCHAR},
@@ -146,7 +145,7 @@
         crt_date = #{crtDate,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where cust_id = #{custId,jdbcType=INTEGER}
+    where cust_id = #{custId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="mis.berritus.cloud.bean.service.cust.MisCustBase">
     update mis_cust_base
@@ -160,6 +159,6 @@
       state = #{state,jdbcType=TINYINT},
       state_date = #{stateDate,jdbcType=TIMESTAMP},
       crt_date = #{crtDate,jdbcType=TIMESTAMP}
-    where cust_id = #{custId,jdbcType=INTEGER}
+    where cust_id = #{custId,jdbcType=VARCHAR}
   </update>
 </mapper>

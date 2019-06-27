@@ -12,7 +12,7 @@ public class QueryServiceImpl implements QueryService {
     private MisCustBaseMapper misCustBaseMapper;
 
     @Override
-    public MisCustBase qryMisCustBase(Integer custId) {
+    public MisCustBase qryMisCustBase(String custId) {
         return misCustBaseMapper.selectByPrimaryKey(custId);
     }
 }

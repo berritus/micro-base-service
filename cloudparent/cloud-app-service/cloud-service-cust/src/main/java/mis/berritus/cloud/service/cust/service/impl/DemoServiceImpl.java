@@ -25,7 +25,6 @@ public class DemoServiceImpl implements DemoService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public Integer insertCustBase(MisCustBase misCustBase) {
-
         if (StringUtils.isEmpty(misCustBase.getCustId())) {
             String uuid = UUID.randomUUID().toString();
             misCustBase.setCustId(uuid);
@@ -40,7 +39,11 @@ public class DemoServiceImpl implements DemoService {
         BeanUtils.copyProperties(misCustBase, misCustBaseExt);
         misCustBaseExt.setEsIndex("cust_base");
         misCustBaseExt.setEsType("customer");
-        elasticSearchClient.insertMisCustBase(misCustBaseExt);
+        misCustBaseExt = elasticSearchClient.insertMisCustBase(misCustBaseExt);
+        if (misCustBaseExt == null) {
+            throw new RuntimeException("注册失败！");
+        }
+
         return 0;
     }
 }

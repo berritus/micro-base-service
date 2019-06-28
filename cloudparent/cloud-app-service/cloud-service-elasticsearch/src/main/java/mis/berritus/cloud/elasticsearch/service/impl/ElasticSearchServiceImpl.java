@@ -84,12 +84,24 @@ public class ElasticSearchServiceImpl implements IElasticSearchService {
         BeanUtils.copyProperties(misCustBaseExt, misCustBase);
 
         String url = elasticSearchCommon.getParamValue(SysConfigConstants.ELASTIC_SEARCH_HOST);
-        url += misCustBaseExt.getEsIndex() + "/" + misCustBaseExt.getEsType();
+        url += misCustBaseExt.getEsIndex() + "/" + misCustBaseExt.getEsType() + "/" + misCustBaseExt.getCustId();
 
         String json = JSON.toJSONString(misCustBase);
-        Map<String, String> params = (Map<String, String>)JSON.parse(json);
-        String result = HttpUtil.post(url, params);
+        Map<String, Object> params = (Map<String, Object>)JSON.parse(json);
 
-        return misCustBaseExt;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-type", "application/json");
+        String result = HttpUtil.put(url, headers, params);
+
+        ElasticsearchRespone respone = null;
+        if (!StringUtils.isEmpty(result)) {
+            respone = JSON.parseObject(result, ElasticsearchRespone.class);
+
+            if (respone != null && respone.get_shards() != null && respone.get_shards().getSuccessful() == 1) {
+                return misCustBaseExt;
+            }
+        }
+
+        return null;
     }
 }

@@ -42,7 +42,6 @@ public class ElasticSearchController {
 
     @PostMapping("/cust/insertMisCustBase")
     public MisCustBaseExt insertMisCustBase(@RequestBody MisCustBaseExt misCustBaseExt) {
-        elasticSearchService.insertMisCustBase(misCustBaseExt);
-        return null;
+        return elasticSearchService.insertMisCustBase(misCustBaseExt);
     }
 }

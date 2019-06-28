@@ -37,4 +37,6 @@ public class CustDemoController {
     public MisCustBase qryMisCustBase(String custId){
         return queryService.qryMisCustBase(custId);
     }
+
+
 }

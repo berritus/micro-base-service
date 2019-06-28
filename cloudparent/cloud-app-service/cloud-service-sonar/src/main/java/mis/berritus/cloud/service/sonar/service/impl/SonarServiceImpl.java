@@ -153,6 +153,7 @@ public class SonarServiceImpl extends AbstractSonarService {
             exportDataBean.setSheetName(projName);
 
             List<String> header = new ArrayList<>();
+            header.add("类型");
             header.add("编号");
             header.add("文件路径");
             header.add("问题");
@@ -184,6 +185,13 @@ public class SonarServiceImpl extends AbstractSonarService {
                     return;
                 }
 
+                String typeStr = "";
+                if ("BUG".equals(types)) {
+                    typeStr = "BUG";
+                } else if ("VULNERABILITY".equals(types)) {
+                    typeStr = "漏洞";
+                }
+
                 List<IssuesBean> issues = resultBean.getIssues();
                 if(issues == null || issues.size() == 0){
                     break;
@@ -191,6 +199,7 @@ public class SonarServiceImpl extends AbstractSonarService {
 
                 for(IssuesBean issuesBean : issues){
                     List<String> data = new ArrayList<>();
+                    data.add(typeStr);
                     data.add(issuesBean.getHash());
                     data.add(issuesBean.getComponent());
                     data.add(issuesBean.getMessage());

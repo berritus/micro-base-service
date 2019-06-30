@@ -3,7 +3,7 @@
 	<contextName>mislog</contextName>
 	<!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
 	<!---->
-	<property name="LOG_HOME" value="F:/IdeaProjects/mylog/cloud-service-cust" />
+	<property name="LOG_HOME" value="/data/logs/cloud/cloud-service-cust" />
 
 	<!--
 	<property name="LOG_HOME" value="/root/mylog" />
@@ -66,12 +66,11 @@
 
 	<!--  -->
 	<logger name="mis.berritus.cloud.service.cust" level="WARN" additivity="false">
-		<appender-ref ref="DEFAULT_APPENDER" />
+		<appender-ref ref="CUST_SERVER_APPENDER" />
 	</logger>
 	<!-- mybatis 打印sql -->
 	<logger name="mis.berritus.cloud.service.cust.dao" level="DEBUG" additivity="false">
 		<appender-ref ref="DBLOG_APPENDER" />
-		<appender-ref ref="CONSOLE" />
 	</logger>
 	<!-- root -->
 	<root level="INFO">

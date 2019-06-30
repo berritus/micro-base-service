@@ -91,7 +91,7 @@
 		<appender-ref ref="DBLOG_APPENDER" />
 		<appender-ref ref="CONSOLE" />
 	</logger>
-	<logger name="com.berritus.mis." level="DEBUG" additivity="false">
+	<logger name="com.berritus.mis" level="DEBUG" additivity="false">
 		<appender-ref ref="CORE_APPENDER" />
 		<appender-ref ref="CONSOLE" />
 	</logger>

@@ -24,6 +24,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 public class CloudServiceCustApplication {
     public static void main(String[] args){
-        SpringApplication.run(CloudServiceCustApplication.class);
+        SpringApplication.run(CloudServiceCustApplication.class, args);
     }
 }

@@ -1,10 +1,15 @@
 package mis.berritus.cloud.service.cust.task;
 
 import com.github.pagehelper.PageInfo;
+import mis.berritus.cloud.app.bean.common.PeopleInfoDTO;
+import mis.berritus.cloud.app.common.utils.RandomUtil;
 import mis.berritus.cloud.bean.base.Page;
 import mis.berritus.cloud.bean.message.TbSysMqMsg;
 import mis.berritus.cloud.bean.service.cust.MisCustBase;
 import mis.berritus.cloud.service.cust.service.DemoService;
+import org.apache.commons.lang.math.RandomUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -25,7 +30,7 @@ import java.util.concurrent.Executors;
  */
 @Component
 public class ServiceCustTask {
-
+    private static final Logger logger = LoggerFactory.getLogger(ServiceCustTask.class);
     @Autowired
     private DemoService demoService;
 
@@ -38,7 +43,7 @@ public class ServiceCustTask {
 
             int processorsNum = Runtime.getRuntime().availableProcessors();
             ExecutorService executor = Executors.newFixedThreadPool(processorsNum * 2 + 1);
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 1; i++) {
                 RegisterCust registerCust = new RegisterCust();
                 executor.submit(registerCust);
             }
@@ -46,7 +51,7 @@ public class ServiceCustTask {
             long endTime = System.currentTimeMillis();
             System.out.println("use times " + (endTime - startTime));
         } catch(Exception e) {
-            System.out.println("error " + e);
+            logger.error("error " + e);
         } finally{
 
         }
@@ -55,14 +60,19 @@ public class ServiceCustTask {
     class RegisterCust implements Runnable {
         @Override
         public void run() {
-            Random random = new Random();
-            int sex = random.nextInt(2) + 1;
+            //Random random = new Random();
+            //int sex = random.nextInt(2) + 1;
 
             MisCustBase misCustBase = new MisCustBase();
             String accout = UUID.randomUUID().toString();
             misCustBase.setAccount(accout);
             misCustBase.setPassword("q123466");
-            misCustBase.setSex((byte)sex);
+
+            String value = RandomUtil.getEmail(7, 10);
+            misCustBase.setEmail(value);
+            PeopleInfoDTO peopleInfoDTO = RandomUtil.getChineseNameAndSex();
+            misCustBase.setCertName(peopleInfoDTO.getName());
+            misCustBase.setSex((byte) peopleInfoDTO.getSex().intValue());
             demoService.insertCustBase(misCustBase);
         }
     }

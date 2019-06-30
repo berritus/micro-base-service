@@ -26,6 +26,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 //@EnableFeignClients(basePackages = {"com.berritus.cloud.message.feign.client"})
 public class CloudSysServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(CloudSysServiceApplication.class);
+        SpringApplication.run(CloudSysServiceApplication.class, args);
     }
 }

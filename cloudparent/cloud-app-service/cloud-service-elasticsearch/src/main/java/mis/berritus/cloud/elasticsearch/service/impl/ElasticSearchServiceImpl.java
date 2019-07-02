@@ -6,9 +6,12 @@ import com.berritus.mis.core.cache.redis.IRedisService;
 import com.berritus.mis.core.component.utils.HttpUtil;
 import mis.berritus.cloud.app.bean.elasticsearch.ElasticsearchRespone;
 import mis.berritus.cloud.app.bean.elasticsearch.MisCustBaseExt;
+import mis.berritus.cloud.app.bean.elasticsearch.QueryDTO;
+import mis.berritus.cloud.app.bean.elasticsearch.SearchDTO;
 import mis.berritus.cloud.app.common.constant.SysConfigConstants;
 import mis.berritus.cloud.bean.service.cust.MisCustBase;
 import mis.berritus.cloud.bean.sys.service.SystemParam;
+import mis.berritus.cloud.elasticsearch.feign.client.ElasticServerClient;
 import mis.berritus.cloud.elasticsearch.feign.client.SysServiceClient;
 import mis.berritus.cloud.elasticsearch.service.IElasticSearchCommon;
 import mis.berritus.cloud.elasticsearch.service.IElasticSearchService;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -38,6 +42,8 @@ public class ElasticSearchServiceImpl implements IElasticSearchService {
     private IRedisService redisService;
     @Autowired
     private IElasticSearchCommon elasticSearchCommon;
+    @Autowired
+    private ElasticServerClient elasticServerClient;
 
     @Override
     public String getAllIndexs() {
@@ -102,6 +108,37 @@ public class ElasticSearchServiceImpl implements IElasticSearchService {
             }
         }
 
+        return null;
+    }
+
+    @Override
+    public List<ElasticsearchRespone> listMisCustBases(MisCustBaseExt misCustBaseExt) {
+
+//        String url = elasticSearchCommon.getParamValue(SysConfigConstants.ELASTIC_SEARCH_HOST);
+//        url += misCustBaseExt.getEsIndex() + "/" + misCustBaseExt.getEsType() + "/_search";
+//
+//        Map<String, String> headers = new HashMap<>();
+//        headers.put("Content-type", "application/json");
+//
+//        Map<String, Object> query = new HashMap<>();
+//
+        QueryDTO queryDTO = new QueryDTO();
+        MisCustBase misCustBase = new MisCustBase();
+        misCustBase.setCertName("边新胜");
+        //Map<String, String> match = new HashMap<>();
+        //query.put("match", JSON.toJSONString(misCustBase));
+        queryDTO.setMatch(misCustBase);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("query", queryDTO);
+        params.put("size", 10);
+//
+//        String result = HttpUtil.post(url, headers, params);
+
+        SearchDTO searchDTO = new SearchDTO();
+        searchDTO.setQuery(queryDTO);
+        searchDTO.setSize(10);
+        String str = elasticServerClient.getData(searchDTO);
         return null;
     }
 }

@@ -21,6 +21,33 @@ public class ElasticsearchRespone extends MisBean {
     private Integer _version;
     private String result;
     private ShardsDTO _shards;
+    private boolean timed_out;
+    private Integer took;
+    private HitsListDTO hits;
+
+    public HitsListDTO getHits() {
+        return hits;
+    }
+
+    public void setHits(HitsListDTO hits) {
+        this.hits = hits;
+    }
+
+    public boolean isTimed_out() {
+        return timed_out;
+    }
+
+    public void setTimed_out(boolean timed_out) {
+        this.timed_out = timed_out;
+    }
+
+    public Integer getTook() {
+        return took;
+    }
+
+    public void setTook(Integer took) {
+        this.took = took;
+    }
 
     public boolean isAcknowledged() {
         return acknowledged;

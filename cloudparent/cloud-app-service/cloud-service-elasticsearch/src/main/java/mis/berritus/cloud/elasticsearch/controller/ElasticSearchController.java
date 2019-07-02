@@ -7,6 +7,8 @@ import mis.berritus.cloud.elasticsearch.service.IElasticSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @Description:
  * @Copyright: mis520
@@ -43,5 +45,10 @@ public class ElasticSearchController {
     @PostMapping("/cust/insertMisCustBase")
     public MisCustBaseExt insertMisCustBase(@RequestBody MisCustBaseExt misCustBaseExt) {
         return elasticSearchService.insertMisCustBase(misCustBaseExt);
+    }
+
+    @PostMapping("/cust/listMisCustBases")
+    public List<ElasticsearchRespone> listMisCustBases(@RequestBody MisCustBaseExt misCustBaseExt) {
+        return elasticSearchService.listMisCustBases(misCustBaseExt);
     }
 }

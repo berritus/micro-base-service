@@ -13,6 +13,15 @@ public class ShardsDTO extends MisBean {
     private Integer failed;
     private Integer successful;
     private Integer total;
+    private Integer skipped;
+
+    public Integer getSkipped() {
+        return skipped;
+    }
+
+    public void setSkipped(Integer skipped) {
+        this.skipped = skipped;
+    }
 
     public Integer getFailed() {
         return failed;

@@ -1,7 +1,9 @@
 package mis.berritus.cloud.service.cust.task;
 
+import com.berritus.mis.core.cache.lock.IRedisLock;
 import com.github.pagehelper.PageInfo;
 import mis.berritus.cloud.app.bean.common.PeopleInfoDTO;
+import mis.berritus.cloud.app.common.constant.CloudServiceCustConstant;
 import mis.berritus.cloud.app.common.utils.RandomUtil;
 import mis.berritus.cloud.bean.base.Page;
 import mis.berritus.cloud.bean.message.TbSysMqMsg;
@@ -33,36 +35,46 @@ public class ServiceCustTask {
     private static final Logger logger = LoggerFactory.getLogger(ServiceCustTask.class);
     @Autowired
     private DemoService demoService;
+    @Autowired
+    private IRedisLock redisLock;
 
     @Scheduled(fixedRate = 60000)
     public void batchRegisterCust(){
-        boolean flag = false;
+        boolean lock = false;
+        String logId = UUID.randomUUID().toString();
+        long startTime = System.currentTimeMillis();
+        long endTime = System.currentTimeMillis();
 
+        logger.info("logId={},定时任务batchRegisterCust启动", logId);
         try{
-            long startTime = System.currentTimeMillis();
+            lock = redisLock.lock(CloudServiceCustConstant.TASK_BATCH_REGISTER_CUST, CloudServiceCustConstant.SERVICE_CUST_TASK_VALUE);
+            if (!lock) {
+                logger.warn("logId={},定时任务batchRegisterCust正在运行中，本次不再运行", logId);
+                return;
+            }
+            startTime = System.currentTimeMillis();
 
             int processorsNum = Runtime.getRuntime().availableProcessors();
             ExecutorService executor = Executors.newFixedThreadPool(processorsNum * 2 + 1);
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < 500; i++) {
                 RegisterCust registerCust = new RegisterCust();
                 executor.submit(registerCust);
             }
-
-            long endTime = System.currentTimeMillis();
-            System.out.println("use times " + (endTime - startTime));
+            executor.shutdown();
+            endTime = System.currentTimeMillis();
         } catch(Exception e) {
-            logger.error("error " + e);
+            logger.error("logId={}，定时任务batchRegisterCust出现异常：{}", logId, e);
         } finally{
-
+            if (lock) {
+                redisLock.unlock(CloudServiceCustConstant.TASK_BATCH_REGISTER_CUST, CloudServiceCustConstant.SERVICE_CUST_TASK_VALUE);
+                logger.info("logId={}，定时任务batchRegisterCust本次运行完毕！用时{}ms", logId, (endTime - startTime));
+            }
         }
     }
 
     class RegisterCust implements Runnable {
         @Override
         public void run() {
-            //Random random = new Random();
-            //int sex = random.nextInt(2) + 1;
-
             MisCustBase misCustBase = new MisCustBase();
             String accout = UUID.randomUUID().toString();
             misCustBase.setAccount(accout);

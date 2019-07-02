@@ -36,7 +36,7 @@ public class MessageTask {
     @Scheduled(fixedRate = 60000)
     public void reportCurrentTime(){
         boolean flag = false;
-
+        //IRedisLock
         try{
             //上锁
             flag = redisTemplate.opsForValue().setIfAbsent(MessageConstant.MESSAGE_TASK_KEY, MessageConstant.MESSAGE_TASK_VALUE);

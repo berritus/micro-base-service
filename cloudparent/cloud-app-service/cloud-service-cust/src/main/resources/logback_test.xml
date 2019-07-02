@@ -64,13 +64,33 @@
 		</rollingPolicy>
 	</appender>
 
+	<appender name="CORE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>${PATTERN}</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--日志文件输出的文件名-->
+			<FileNamePattern>${LOG_HOME}/core.%d{yyyyMMdd}.%i.${LOG_EXTFILE}</FileNamePattern>
+			<!--日志文件保留天数-->
+			<MaxHistory>${MAX_HISTORY}</MaxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!--日志文件超过大小再重新起一份-->
+				<maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
 	<!--  -->
-	<logger name="mis.berritus.cloud.service.cust" level="WARN" additivity="false">
-		<appender-ref ref="CUST_SERVER_APPENDER" />
+	<logger name="mis.berritus.cloud.service.cust" level="INFO" additivity="false">
+		<appender-ref ref="DEFAULT_APPENDER" />
 	</logger>
 	<!-- mybatis 打印sql -->
 	<logger name="mis.berritus.cloud.service.cust.dao" level="DEBUG" additivity="false">
 		<appender-ref ref="DBLOG_APPENDER" />
+	</logger>
+	<logger name="com.berritus.mis" level="INFO" additivity="false">
+		<appender-ref ref="CORE_APPENDER" />
 	</logger>
 	<!-- root -->
 	<root level="INFO">

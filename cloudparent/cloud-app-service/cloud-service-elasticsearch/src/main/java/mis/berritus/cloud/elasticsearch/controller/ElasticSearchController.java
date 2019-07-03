@@ -33,12 +33,12 @@ public class ElasticSearchController {
     }
 
     @GetMapping("/createIndex")
-    public ElasticsearchRespone createIndex(String indexName) {
-        return elasticSearchService.createIndex(indexName);
+    public Integer createIndex(String indexName) {
+        return elasticSearchService.createIndexByJson(indexName);
     }
 
     @GetMapping("/deleteIndex")
-    public ElasticsearchRespone deleteIndex(String indexName) {
+    public Integer deleteIndex(String indexName) {
         return elasticSearchService.deleteIndex(indexName);
     }
 

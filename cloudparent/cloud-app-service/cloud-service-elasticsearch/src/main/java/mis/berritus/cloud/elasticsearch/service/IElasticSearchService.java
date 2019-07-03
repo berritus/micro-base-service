@@ -14,11 +14,13 @@ import java.util.List;
 public interface IElasticSearchService {
     String getAllIndexs();
 
-    ElasticsearchRespone createIndex(String indexName);
+    Integer createIndex(String indexName);
 
-    ElasticsearchRespone deleteIndex(String indexName);
+    Integer deleteIndex(String indexName);
 
     MisCustBaseExt insertMisCustBase(MisCustBaseExt misCustBaseExt);
 
     List<ElasticsearchRespone> listMisCustBases(MisCustBaseExt misCustBaseExt);
+
+    Integer createIndexByJson(String json);
 }

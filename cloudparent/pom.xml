@@ -117,6 +117,12 @@
                 <artifactId>mis-core-component</artifactId>
                 <version>${core.module.version}</version>
             </dependency>
+            <!--elasticsearch-->
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>transport</artifactId>
+                <version>6.5.4</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>

@@ -15,17 +15,28 @@ import mis.berritus.cloud.elasticsearch.feign.client.ElasticServerClient;
 import mis.berritus.cloud.elasticsearch.feign.client.SysServiceClient;
 import mis.berritus.cloud.elasticsearch.service.IElasticSearchCommon;
 import mis.berritus.cloud.elasticsearch.service.IElasticSearchService;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.Response;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchType;
+import org.elasticsearch.index.query.QueryBuilders.*;
 /**
  * @Description:
  * @Copyright: mis520
@@ -34,7 +45,8 @@ import java.util.UUID;
  */
 @Service
 public class ElasticSearchServiceImpl implements IElasticSearchService {
-    private String elasticSearchHost;
+    private static final Logger logger = LoggerFactory.getLogger(ElasticSearchServiceImpl.class);
+    private static TransportClient client;
 
     @Autowired
     private SysServiceClient sysServiceClient;
@@ -45,6 +57,29 @@ public class ElasticSearchServiceImpl implements IElasticSearchService {
     @Autowired
     private ElasticServerClient elasticServerClient;
 
+
+    static {
+        try {
+            // on startup
+//            TransportClient client = new PreBuiltTransportClient(Settings.EMPTY)
+//                    .addTransportAddress(new TransportAddress(InetAddress.getByName("host1"), 9300))
+//                    .addTransportAddress(new TransportAddress(InetAddress.getByName("host2"), 9300));
+
+            // on shutdown
+            // client.close();
+            // Note that you have to set the cluster name if you use one different than "elasticsearch":
+//            Settings settings = Settings.builder()
+//                    .put("cluster.name", "myClusterName").build();
+//            TransportClient client = new PreBuiltTransportClient(settings);
+            //Add transport addresses and do something with the client...
+
+            client = new PreBuiltTransportClient(Settings.EMPTY)
+                    .addTransportAddress(new TransportAddress(InetAddress.getByName("localhost"), 9300));
+        } catch (Exception e) {
+            logger.error("ElasticSearch Clinet 异常：{}", e);
+        }
+    }
+
     @Override
     public String getAllIndexs() {
         String url = elasticSearchCommon.getParamValue(SysConfigConstants.ELASTIC_SEARCH_ALL_INDEXS_URL);
@@ -54,29 +89,43 @@ public class ElasticSearchServiceImpl implements IElasticSearchService {
     }
 
     @Override
-    public ElasticsearchRespone createIndex(String indexName) {
-        String url = elasticSearchCommon.getParamValue(SysConfigConstants.ELASTIC_SEARCH_HOST);
-
-        String resultStr = HttpUtil.put(url + indexName);
-        if (!StringUtils.isEmpty(resultStr)) {
-            ElasticsearchRespone respone = JSON.parseObject(resultStr, ElasticsearchRespone.class);
-            return respone;
+    public Integer createIndex(String indexName) {
+//        String url = elasticSearchCommon.getParamValue(SysConfigConstants.ELASTIC_SEARCH_HOST);
+//
+//        String resultStr = HttpUtil.put(url + indexName);
+//        if (!StringUtils.isEmpty(resultStr)) {
+//            ElasticsearchRespone respone = JSON.parseObject(resultStr, ElasticsearchRespone.class);
+//            return respone;
+//        }
+        try {
+            client.admin().indices().prepareCreate(indexName).get();
+            //client.close();
+            return 0;
+        } catch (Exception e) {
+            logger.error("新增index[{}]失败", indexName, e);
         }
 
-        return null;
+        return 1;
     }
 
     @Override
-    public ElasticsearchRespone deleteIndex(String indexName) {
-        String url = elasticSearchCommon.getParamValue(SysConfigConstants.ELASTIC_SEARCH_HOST);
-
-        String resultStr = HttpUtil.delete(url + indexName);
-        if (!StringUtils.isEmpty(resultStr)) {
-            ElasticsearchRespone respone = JSON.parseObject(resultStr, ElasticsearchRespone.class);
-            return respone;
+    public Integer deleteIndex(String indexName) {
+//        String url = elasticSearchCommon.getParamValue(SysConfigConstants.ELASTIC_SEARCH_HOST);
+//
+//        String resultStr = HttpUtil.delete(url + indexName);
+//        if (!StringUtils.isEmpty(resultStr)) {
+//            ElasticsearchRespone respone = JSON.parseObject(resultStr, ElasticsearchRespone.class);
+//            return respone;
+//        }
+        try {
+            client.admin().indices().prepareDelete(indexName).get();
+            // client.close();
+            return 0;
+        } catch (Exception e) {
+            logger.error("删除index[{}]失败", indexName, e);
         }
 
-        return null;
+        return 1;
     }
 
     @Override
@@ -114,13 +163,13 @@ public class ElasticSearchServiceImpl implements IElasticSearchService {
     @Override
     public List<ElasticsearchRespone> listMisCustBases(MisCustBaseExt misCustBaseExt) {
 
-//        String url = elasticSearchCommon.getParamValue(SysConfigConstants.ELASTIC_SEARCH_HOST);
-//        url += misCustBaseExt.getEsIndex() + "/" + misCustBaseExt.getEsType() + "/_search";
-//
-//        Map<String, String> headers = new HashMap<>();
-//        headers.put("Content-type", "application/json");
-//
-//        Map<String, Object> query = new HashMap<>();
+        String url = elasticSearchCommon.getParamValue(SysConfigConstants.ELASTIC_SEARCH_HOST);
+        url += misCustBaseExt.getEsIndex() + "/" + misCustBaseExt.getEsType() + "/_search";
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-type", "application/json");
+
+        Map<String, Object> query = new HashMap<>();
 //
         QueryDTO queryDTO = new QueryDTO();
         MisCustBase misCustBase = new MisCustBase();
@@ -133,12 +182,28 @@ public class ElasticSearchServiceImpl implements IElasticSearchService {
         params.put("query", queryDTO);
         params.put("size", 10);
 //
-//        String result = HttpUtil.post(url, headers, params);
+        String result = HttpUtil.post(url, headers, params);
 
-        SearchDTO searchDTO = new SearchDTO();
-        searchDTO.setQuery(queryDTO);
-        searchDTO.setSize(10);
-        String str = elasticServerClient.getData(searchDTO);
         return null;
     }
+
+    @Override
+    public Integer createIndexByJson(String json) {
+        try {
+           String uuid = UUID.randomUUID().toString();
+            String json2 = "{" +
+                    "\"user\":\"kimchy\"," +
+                    "\"postDate\":\"2013-01-30\"," +
+                    "\"message\":\"trying out Elasticsearch\"" +
+                    "}";
+            IndexResponse indexResponse = client.prepareIndex("userInfo", "baseInfo", uuid).setSource(json2).execute().actionGet();
+            return 0;
+        } catch (Exception e) {
+            logger.error("新增index[{}]失败", "userInfo", e);
+        }
+
+        return 1;
+    }
+
+
 }

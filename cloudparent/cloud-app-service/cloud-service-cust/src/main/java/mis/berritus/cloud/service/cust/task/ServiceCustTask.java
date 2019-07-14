@@ -33,6 +33,8 @@ import java.util.concurrent.Executors;
 @Component
 public class ServiceCustTask {
     private static final Logger logger = LoggerFactory.getLogger(ServiceCustTask.class);
+    private static long lockTimeOut = 120000;
+
     @Autowired
     private DemoService demoService;
     @Autowired
@@ -45,9 +47,11 @@ public class ServiceCustTask {
         long startTime = System.currentTimeMillis();
         long endTime = System.currentTimeMillis();
 
+        String value = (System.currentTimeMillis() + lockTimeOut) + "";
+
         logger.info("logId={},定时任务batchRegisterCust启动", logId);
         try{
-            lock = redisLock.lock(CloudServiceCustConstant.TASK_BATCH_REGISTER_CUST, CloudServiceCustConstant.SERVICE_CUST_TASK_VALUE);
+            lock = redisLock.lock(CloudServiceCustConstant.TASK_BATCH_REGISTER_CUST, value);
             if (!lock) {
                 logger.warn("logId={},定时任务batchRegisterCust正在运行中，本次不再运行", logId);
                 return;
@@ -66,7 +70,7 @@ public class ServiceCustTask {
             logger.error("logId={}，定时任务batchRegisterCust出现异常：{}", logId, e);
         } finally{
             if (lock) {
-                redisLock.unlock(CloudServiceCustConstant.TASK_BATCH_REGISTER_CUST, CloudServiceCustConstant.SERVICE_CUST_TASK_VALUE);
+                redisLock.unlock(CloudServiceCustConstant.TASK_BATCH_REGISTER_CUST, value);
                 logger.info("logId={}，定时任务batchRegisterCust本次运行完毕！用时{}ms", logId, (endTime - startTime));
             }
         }

@@ -107,7 +107,7 @@ public class SonarServiceImpl extends AbstractSonarService {
                 break;
             }
 
-            Long total = resultBean.getTotal();
+            Integer total = resultBean.getTotal();
             if(total == null){
                 return;
             }
@@ -180,7 +180,7 @@ public class SonarServiceImpl extends AbstractSonarService {
                     break;
                 }
 
-                Long total = resultBean.getTotal();
+                Integer total = resultBean.getTotal();
                 if(total == null){
                     return;
                 }

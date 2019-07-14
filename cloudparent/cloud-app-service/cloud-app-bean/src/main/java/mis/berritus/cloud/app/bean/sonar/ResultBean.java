@@ -25,14 +25,6 @@ public class ResultBean extends MisBean {
         this.measures = measures;
     }
 
-    public Long getTotal() {
-        return total;
-    }
-
-    public void setTotal(Long total) {
-        this.total = total;
-    }
-
     public Integer getP() {
         return p;
     }

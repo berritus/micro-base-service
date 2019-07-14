@@ -1,5 +1,7 @@
 package mis.berritus.cloud.app.common.utils;
 
+import mis.berritus.cloud.app.bean.common.ResultVO;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -121,5 +123,14 @@ public class CommonUtil {
 		calendar.set(Calendar.MILLISECOND, 0);
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		return calendar.getTime();
+	}
+
+	public static ResultVO getResultVO(boolean successful, Integer rspCode, String msg) {
+		ResultVO resultVO = new ResultVO();
+		resultVO.setSuccessful(successful);
+		resultVO.setRspCode(rspCode);
+		resultVO.setMsg(msg);
+
+		return resultVO;
 	}
 }

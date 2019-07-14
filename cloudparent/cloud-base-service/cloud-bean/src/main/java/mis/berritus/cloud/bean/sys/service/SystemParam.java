@@ -85,4 +85,18 @@ public class SystemParam extends MisBean {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+    @Override
+    public String toString() {
+        return "SystemParam{" +
+                "uuid='" + uuid + '\'' +
+                ", paramName='" + paramName + '\'' +
+                ", paramCode='" + paramCode + '\'' +
+                ", paramValue='" + paramValue + '\'' +
+                ", state=" + state +
+                ", stateDate=" + stateDate +
+                ", crtDate=" + crtDate +
+                ", remark='" + remark + '\'' +
+                '}';
+    }
 }

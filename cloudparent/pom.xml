@@ -17,6 +17,7 @@
     <modules>
         <module>cloud-base-service</module>
         <module>cloud-app-service</module>
+        <module>cloud-pc-web</module>
     </modules>
 
     <properties>
@@ -123,8 +124,19 @@
                 <artifactId>transport</artifactId>
                 <version>6.5.4</version>
             </dependency>
+            <!--thymeleaf-->
+            <dependency>
+                <groupId>org.thymeleaf.extras</groupId>
+                <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+                <version>3.0.4.RELEASE</version>
+            </dependency>
+            <!--pagehelper-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>5.1.8</version>
+            </dependency>
         </dependencies>
-
     </dependencyManagement>
 
     <build>

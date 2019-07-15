@@ -20,6 +20,7 @@ import org.elasticsearch.client.Response;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -187,8 +188,14 @@ public class ElasticSearchServiceImpl implements IElasticSearchService {
         return null;
     }
 
+
+    /**
+     * 报错：The number of object passed must be even but was [1]
+     * http://localhost:9200/userinfo/baseInfo/_search
+     * http://localhost:9200/indexName/indexType/_search
+     */
     @Override
-    public Integer createIndexByJson(String json) {
+    public Integer createIndexByJson(String indexName, String indexType, String json) {
         try {
            String uuid = UUID.randomUUID().toString();
             String json2 = "{" +
@@ -196,7 +203,14 @@ public class ElasticSearchServiceImpl implements IElasticSearchService {
                     "\"postDate\":\"2013-01-30\"," +
                     "\"message\":\"trying out Elasticsearch\"" +
                     "}";
-            IndexResponse indexResponse = client.prepareIndex("userInfo", "baseInfo", uuid).setSource(json2).execute().actionGet();
+            IndexResponse indexResponse = client.prepareIndex(indexName, indexType, uuid)
+                    .setSource(json, XContentType.JSON).execute().actionGet();
+
+            logger.info("index:" + indexResponse.getIndex());
+            logger.info("type:" + indexResponse.getType());
+            logger.info("id:" + indexResponse.getId());
+            logger.info("version:" + indexResponse.getVersion());
+            logger.info("result:" + indexResponse.getResult());
             return 0;
         } catch (Exception e) {
             logger.error("新增index[{}]失败", "userInfo", e);

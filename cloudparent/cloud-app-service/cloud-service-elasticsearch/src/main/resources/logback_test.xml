@@ -82,7 +82,7 @@
 		</rollingPolicy>
 	</appender>
 	<!--  -->
-	<logger name="mis.berritus.cloud.elasticsearch" level="WARN" additivity="false">
+	<logger name="mis.berritus.cloud.elasticsearch" level="INFO" additivity="false">
 		<appender-ref ref="DEFAULT_APPENDER" />
 	</logger>
 	<!-- mybatis 打印sql -->

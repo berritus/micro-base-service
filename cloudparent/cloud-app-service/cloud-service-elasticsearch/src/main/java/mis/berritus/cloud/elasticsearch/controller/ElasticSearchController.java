@@ -34,7 +34,7 @@ public class ElasticSearchController {
 
     @GetMapping("/createIndex")
     public Integer createIndex(String indexName) {
-        return elasticSearchService.createIndexByJson(indexName);
+        return elasticSearchService.createIndexByJson(indexName, "", "");
     }
 
     @GetMapping("/deleteIndex")

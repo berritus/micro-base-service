@@ -11,6 +11,8 @@
 
     <script>
         $(document).ready(function(){
+            var access_token = sessionStorage.getItem("access_token");
+
             $("#submitData").click(function(){
                 $.ajax({
                     url: "/layui/sys/param/add",
@@ -18,6 +20,9 @@
                     type: "post",
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
+                    headers : {
+                        'Authorization' : "bearer " + access_token
+                    },
                     success: function (data) {
                         if(data.result.successful){
                             alert("添加成功");

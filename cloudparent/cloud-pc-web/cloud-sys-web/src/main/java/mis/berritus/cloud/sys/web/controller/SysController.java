@@ -42,8 +42,15 @@ public class SysController {
     // http://localhost:8110/layui/sys/param/list/page
     @RequestMapping("/sys/param/list/page")
     public String sysParamList(Model model) {
-        // model.addAttribute("message", "你好啊");
+
         return "study/layui/system_param_list";
+    }
+
+    // http://localhost:8110/layui/sys/user/add/page
+    @RequestMapping("/sys/user/add/page")
+    public String sysUserAddPage(Model model) {
+        // model.addAttribute("message", "你好啊");
+        return "study/layui/user_add";
     }
 
     @PostMapping("/sys/param/add")

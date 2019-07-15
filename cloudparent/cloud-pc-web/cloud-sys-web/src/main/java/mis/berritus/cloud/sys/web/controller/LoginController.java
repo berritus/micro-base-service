@@ -10,10 +10,7 @@ import org.apache.tomcat.util.http.parser.Authorization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,11 +41,20 @@ public class LoginController {
 
     @Autowired
     private AuthServiceClient authServiceClient;
+
     // http://localhost:8110
     @RequestMapping("/")
     public String index(Model model) {
-        // model.addAttribute("message", "你好啊");
         return "study/main/login";
+    }
+
+    // http://localhost:8110/index
+    @RequestMapping("/index")
+    public String indexPage(Model model, HttpServletRequest request) {
+        // model.addAttribute("message", "你好啊");
+        String accessToken = request.getParameter("access_token");
+        model.addAttribute("accessToken", accessToken);
+        return "study/main/index";
     }
 
     //用于获取当前用户token

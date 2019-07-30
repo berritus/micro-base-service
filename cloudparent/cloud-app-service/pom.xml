@@ -21,6 +21,7 @@
         <module>cloud-app-common</module>
         <module>cloud-service-sonar</module>
         <module>cloud-service-elasticsearch</module>
+        <module>cloud-service-mongodb</module>
     </modules>
 
 

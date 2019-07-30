@@ -219,5 +219,45 @@ public class ElasticSearchServiceImpl implements IElasticSearchService {
         return 1;
     }
 
+    @Override
+    public Integer insertIndexByJson(String indexName, String indexType, String json) {
+
+//        IndexResponse indexResponse = client.prepareIndex(indexName, indexType, uuid)
+//                .setSource(json, XContentType.JSON).execute().actionGet();
+        return null;
+    }
+
+
+//    @Override
+//    public MisCustBaseExt insertMisCustBase(MisCustBaseExt misCustBaseExt) {
+//        if (misCustBaseExt == null) {
+//            return null;
+//        }
+//
+//        MisCustBase misCustBase = new MisCustBase();
+//
+//        BeanUtils.copyProperties(misCustBaseExt, misCustBase);
+//
+//        String url = elasticSearchCommon.getParamValue(SysConfigConstants.ELASTIC_SEARCH_HOST);
+//        url += misCustBaseExt.getEsIndex() + "/" + misCustBaseExt.getEsType() + "/" + misCustBaseExt.getCustId();
+//
+//        String json = JSON.toJSONString(misCustBase);
+//        Map<String, Object> params = (Map<String, Object>)JSON.parse(json);
+//
+//        Map<String, String> headers = new HashMap<>();
+//        headers.put("Content-type", "application/json");
+//        String result = HttpUtil.put(url, headers, params);
+//
+//        ElasticsearchRespone respone = null;
+//        if (!StringUtils.isEmpty(result)) {
+//            respone = JSON.parseObject(result, ElasticsearchRespone.class);
+//
+//            if (respone != null && respone.get_shards() != null && respone.get_shards().getSuccessful() == 1) {
+//                return misCustBaseExt;
+//            }
+//        }
+//
+//        return null;
+//    }
 
 }

@@ -1,28 +1,20 @@
 package mis.berritus.cloud.service.cust.task;
 
 import com.berritus.mis.core.cache.lock.IRedisLock;
-import com.github.pagehelper.PageInfo;
+import com.berritus.mis.core.component.thread.MisExecutors;
 import mis.berritus.cloud.app.bean.common.PeopleInfoDTO;
 import mis.berritus.cloud.app.common.constant.CloudServiceCustConstant;
 import mis.berritus.cloud.app.common.utils.RandomUtil;
-import mis.berritus.cloud.bean.base.Page;
-import mis.berritus.cloud.bean.message.TbSysMqMsg;
 import mis.berritus.cloud.bean.service.cust.MisCustBase;
 import mis.berritus.cloud.service.cust.service.DemoService;
-import org.apache.commons.lang.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @Description:
@@ -59,7 +51,7 @@ public class ServiceCustTask {
             startTime = System.currentTimeMillis();
 
             int processorsNum = Runtime.getRuntime().availableProcessors();
-            ExecutorService executor = Executors.newFixedThreadPool(processorsNum * 2 + 1);
+            ExecutorService executor = MisExecutors.newFixedThreadPool(processorsNum * 2 + 1);
             for (int i = 0; i < 500; i++) {
                 RegisterCust registerCust = new RegisterCust();
                 executor.submit(registerCust);

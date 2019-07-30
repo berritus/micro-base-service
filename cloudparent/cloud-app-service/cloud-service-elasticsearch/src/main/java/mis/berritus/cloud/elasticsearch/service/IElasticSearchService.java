@@ -36,4 +36,6 @@ public interface IElasticSearchService {
      *
      */
     Integer createIndexByJson(String indexName, String indexType, String json);
+
+    Integer insertIndexByJson(String indexName, String indexType, String json);
 }

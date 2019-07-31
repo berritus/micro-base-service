@@ -118,6 +118,11 @@
                 <artifactId>mis-core-component</artifactId>
                 <version>${core.module.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.berritus.core</groupId>
+                <artifactId>mis-core-controller</artifactId>
+                <version>${core.module.version}</version>
+            </dependency>
             <!--elasticsearch-->
             <dependency>
                 <groupId>org.elasticsearch.client</groupId>

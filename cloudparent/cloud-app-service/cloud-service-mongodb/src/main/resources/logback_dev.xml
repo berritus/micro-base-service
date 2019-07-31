@@ -82,12 +82,12 @@
 		</rollingPolicy>
 	</appender>
 	<!--  -->
-	<logger name="mis.berritus.cloud.elasticsearch" level="INFO" additivity="false">
+	<logger name="mis.berritus.cloud.mongodb" level="INFO" additivity="false">
 		<appender-ref ref="DEFAULT_APPENDER" />
 	</logger>
 	<!-- mybatis 打印sql -->
 	<!---->
-	<logger name="mis.berritus.cloud.elasticsearch.dao" level="DEBUG" additivity="false">
+	<logger name="mis.berritus.cloud.mongodb.dao" level="DEBUG" additivity="false">
 		<appender-ref ref="DBLOG_APPENDER" />
 		<appender-ref ref="CONSOLE" />
 	</logger>

@@ -86,8 +86,8 @@
             targetPackage:生成的类要放的包,真实的包受enableSubPackages属性控制
             targetProject:目标项目,指定一个存在的目录下,生成的内容会放到指定目录中,如果目录不存在,MBG不会自动建目录
         -->
-        <javaModelGenerator targetPackage="com.berritus.cloud.bean.mybatis.message"
-                            targetProject="F:\IdeaProjects\mis-cloud\cloud-bean\src\main\java">
+        <javaModelGenerator targetPackage="mis.berritus.cloud.bean.message"
+                            targetProject="F:\spring-proj\micro-base-service\cloudparent\cloud-base-service\cloud-bean\src\main\java">
 
             <!-- 自动为每一个生成的类创建一个构造方法,构造方法包含了所有的field,而不是使用setter -->
             <!--<property name="constructorBased" value="false"/>-->
@@ -121,7 +121,7 @@
             targetPackage/targetProject:同javaModelGenerator
         -->
         <sqlMapGenerator targetPackage="mybatis"
-                         targetProject="F:\IdeaProjects\mis-cloud\cloud-message\src\main\resources">
+                         targetProject="F:\spring-proj\micro-base-service\cloudparent\cloud-base-service\cloud-message\src\main\resources">
             <!-- 在targetPackage的基础上,根据数据库的schema再生成一层package,最终生成的类放在这个package下,默认为false -->
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
@@ -137,7 +137,7 @@
             注意,如果context是MyBatis3Simple:只支持ANNOTATEDMAPPER和XMLMAPPER
         -->
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.berritus.cloud.message.dao"
-                             targetProject="F:\IdeaProjects\mis-cloud\cloud-message\src\main\java">
+                             targetProject="F:\spring-proj\micro-base-service\cloudparent\cloud-base-service\cloud-message\src\main\java">
             <!-- 在targetPackage的基础上,根据数据库的schema再生成一层package,最终生成的类放在这个package下,默认为false -->
             <property name="enableSubPackages" value="false"/>
 
@@ -186,7 +186,7 @@
 
             注意,table里面很多参数都是对javaModelGenerator,context等元素的默认属性的一个复写
         -->
-        <table tableName="null"
+        <table tableName="conf_message_mq"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

@@ -10,11 +10,15 @@ public class MessageController {
     @Autowired
     private MessageService messageService;
 
+    // http://localhost:8106/
     @GetMapping("")
     public String index(){
+        messageService.testSysMqMsg();
+        messageService.testSysMqMsg2();
         return "this is message system";
     }
 
+    // http://localhost:8106//msg/add
     @RequestMapping(method = RequestMethod.POST, value = "/msg/add")
     public int addMsg(@RequestBody TbSysMqMsg record){
         try{

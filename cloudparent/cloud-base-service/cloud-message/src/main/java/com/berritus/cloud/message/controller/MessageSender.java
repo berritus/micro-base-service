@@ -15,6 +15,7 @@ public class MessageSender {
     @Autowired
     private MessageService messageService;
 
+    // http://localhost:8106//msg/confirm
     @RequestMapping(method = RequestMethod.POST, value = "/msg/confirm")
     public int sendConfirmMsg(@RequestBody RequestMsg requestMsg){
         try{

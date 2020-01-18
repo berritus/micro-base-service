@@ -3,7 +3,9 @@ package com.berritus.cloud.message.component;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +16,9 @@ public class RabbitMQConfig {
      * key: queue在该direct-exchange中的key值，当消息发送给direct-exchange中指定key为设置值时，
      * 消息将会转发给queue参数指定的消息队列
      */
-    public final String ORDER_ROUTING_KEY1 = "order_routing_key1";
-    public final String ORDER_ROUTING_KEY2 = "order_routing_key2";
-    public final String MSG_ROUTING_KEY = "msg_routing_key";
+    public static final String ORDER_ROUTING_KEY1 = "order_routing_key1";
+    public static final String ORDER_ROUTING_KEY2 = "order_routing_key2";
+    public static final String MSG_ROUTING_KEY = "msg_routing_key";
 
     @Autowired
     private ExChangeConfig exChangeConfig;
@@ -29,27 +31,35 @@ public class RabbitMQConfig {
     @Autowired
     private RabbitTemplate.ReturnCallback returnCallback;
 
-    @Bean
-    public Binding orderBinding(){
-        return BindingBuilder.bind(queueConfig.orderQueue1()).to(exChangeConfig.orderExChange()).with(ORDER_ROUTING_KEY1);
-    }
+//    @Bean
+//    public Binding orderBinding(){
+//        return BindingBuilder.bind(queueConfig.orderQueue1()).to(exChangeConfig.orderExChange()).with(ORDER_ROUTING_KEY1);
+//    }
+//
+//    @Bean
+//    public Binding orderBingding2(){
+//        return BindingBuilder.bind(queueConfig.orderQueue2()).to(exChangeConfig.orderExChange()).with(ORDER_ROUTING_KEY2);
+//    }
+//
+//    @Bean
+//    public Binding msgBingding2(){
+//        return BindingBuilder.bind(queueConfig.strMsgQueue()).to(exChangeConfig.msgExChange()).with(MSG_ROUTING_KEY);
+//    }
 
+    // @Bean("msgRabbitTemplate")
     @Bean
-    public Binding orderBingding2(){
-        return BindingBuilder.bind(queueConfig.orderQueue2()).to(exChangeConfig.orderExChange()).with(ORDER_ROUTING_KEY2);
-    }
-
-    @Bean
-    public Binding msgBingding2(){
-        return BindingBuilder.bind(queueConfig.strMsgQueue()).to(exChangeConfig.msgExChange()).with(MSG_ROUTING_KEY);
-    }
-
-    @Bean("msgRabbitTemplate")
     public RabbitTemplate rabbitTemplate(){
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setConfirmCallback(confirmCallback);
         rabbitTemplate.setReturnCallback(returnCallback);
         rabbitTemplate.setMandatory(true);
+        // 数据转换为json存入消息队列
+        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
         return rabbitTemplate;
+    }
+
+    @Bean
+    public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory){
+        return new RabbitAdmin(connectionFactory);
     }
 }

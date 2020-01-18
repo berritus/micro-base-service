@@ -19,6 +19,22 @@ public class TbSysMqMsg extends MisBean {
 
     private Integer state;
 
+    @Override
+    public String toString() {
+        return "TbSysMqMsg{" +
+                "msgId=" + msgId +
+                ", msgCode='" + msgCode + '\'' +
+                ", exChange='" + exChange + '\'' +
+                ", routingKey='" + routingKey + '\'' +
+                ", sendMsg='" + sendMsg + '\'' +
+                ", state=" + state +
+                ", stateDate=" + stateDate +
+                ", crtDate=" + crtDate +
+                ", beginDate=" + beginDate +
+                ", endDate=" + endDate +
+                '}';
+    }
+
     private Date stateDate;
 
     private Date crtDate;

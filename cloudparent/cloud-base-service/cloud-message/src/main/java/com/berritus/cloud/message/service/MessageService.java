@@ -8,4 +8,7 @@ public interface MessageService {
     int insertSysMqMsg(TbSysMqMsg record);
     void updateSysMqMsg(TbSysMqMsg record);
     int sendConfirmMsg(@RequestBody RequestMsg requestMsg);
+
+    int testSysMqMsg();
+    int testSysMqMsg2();
 }

@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ExChangeConfig {
-    private final String ORDER_EX_CHANGE = "order_ex_change";
-    private final String MSG_EX_CHANGE = "msg_ex_change";
+    public static final String ORDER_EX_CHANGE = "order_ex_change";
+    public static final String MSG_EX_CHANGE = "msg_ex_change";
 
     /**
      *   1.定义direct exchange，绑定first_exchange
@@ -19,15 +19,15 @@ public class ExChangeConfig {
      *     fanout交换器中没有路由键的概念，他会把消息发送到所有绑定在此交换器上面的队列中。
      *     topic交换器你采用模糊匹配路由键的原则进行转发消息到队列中
      */
-    @Bean("orderExChange")
-    public DirectExchange orderExChange(){
-        DirectExchange exchange = new DirectExchange(ORDER_EX_CHANGE, true, false);
-        return exchange;
-    }
-
-    @Bean("msgExChange")
-    public DirectExchange msgExChange(){
-        DirectExchange exchange = new DirectExchange(MSG_EX_CHANGE, true, false);
-        return exchange;
-    }
+//    @Bean("orderExChange")
+//    public DirectExchange orderExChange(){
+//        DirectExchange exchange = new DirectExchange(ORDER_EX_CHANGE, true, false);
+//        return exchange;
+//    }
+//
+//    @Bean("msgExChange")
+//    public DirectExchange msgExChange(){
+//        DirectExchange exchange = new DirectExchange(MSG_EX_CHANGE, true, false);
+//        return exchange;
+//    }
 }

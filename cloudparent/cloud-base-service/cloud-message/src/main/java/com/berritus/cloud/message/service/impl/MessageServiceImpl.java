@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.berritus.cloud.message.component.ExChangeConfig;
 import com.berritus.cloud.message.component.QueueConfig;
 import com.berritus.cloud.message.component.RabbitMQConfig;
+import com.berritus.cloud.message.component.RabbitMQUtil;
 import com.berritus.cloud.message.dao.TbSysMqMsgMapper;
 import com.berritus.cloud.message.service.MessageService;
 import com.rabbitmq.client.Channel;
@@ -39,6 +40,8 @@ public class MessageServiceImpl implements MessageService {
     @Autowired
     //@Qualifier("msgRabbitTemplate")
     private RabbitTemplate rabbitTemplate;
+    @Autowired
+    private RabbitMQUtil rabbitMQUtil;
 
     @Override
     public int insertSysMqMsg(TbSysMqMsg record) {
@@ -100,12 +103,15 @@ public class MessageServiceImpl implements MessageService {
         record.setRoutingKey("test_routing_key");
         record.setSendMsg("hello world");
         String json = JSON.toJSONString(record);
-        Message message = MessageBuilder.withBody(json.getBytes())
-                .setContentType(MessageProperties.CONTENT_TYPE_JSON)
-                .setMessageId(UUID.randomUUID().toString().replace("-", ""))
-                .setCorrelationId(correlationData.getId()).build();
 
-        rabbitTemplate.convertAndSend(record.getExChange(), record.getRoutingKey(), message, correlationData);
+        Message message = rabbitMQUtil.getMessage(json);
+        rabbitMQUtil.sendMessage(message, record.getExChange(), record.getRoutingKey());
+//        Message message = MessageBuilder.withBody(json.getBytes())
+//                .setContentType(MessageProperties.CONTENT_TYPE_JSON)
+//                .setMessageId(UUID.randomUUID().toString().replace("-", ""))
+//                .setCorrelationId(correlationData.getId()).build();
+
+        //rabbitTemplate.convertAndSend(record.getExChange(), record.getRoutingKey(), message, correlationData);
         return 0;
     }
 

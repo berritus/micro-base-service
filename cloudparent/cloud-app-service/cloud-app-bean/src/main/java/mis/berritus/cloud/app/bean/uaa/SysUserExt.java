@@ -1,6 +1,6 @@
 package mis.berritus.cloud.app.bean.uaa;
 
-import mis.berritus.cloud.bean.base.MisBean;
+import com.berritus.mis.core.bean.MisBean;
 import mis.berritus.cloud.bean.uaa.SysUser;
 
 public class SysUserExt extends MisBean {

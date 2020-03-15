@@ -1,6 +1,6 @@
 package mis.berritus.cloud.bean.sys.service;
 
-import mis.berritus.cloud.bean.base.MisBean;
+import com.berritus.mis.core.bean.MisBean;
 
 /**
  * @Description:

@@ -1,6 +1,6 @@
 package mis.berritus.cloud.app.bean.sonar;
 
-import mis.berritus.cloud.bean.base.MisBean;
+import com.berritus.mis.core.bean.MisBean;
 
 /**
  * @Program: cloud-parent

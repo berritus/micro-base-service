@@ -1,6 +1,7 @@
 package mis.berritus.cloud.sys.service.service.impl;
 
 import com.berritus.mis.core.cache.lock.IRedisLock;
+import com.berritus.mis.core.common.utils.MisRandUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import mis.berritus.cloud.bean.base.Page;
@@ -82,8 +83,7 @@ public class SysServiceImpl implements ISysService {
             throw new RuntimeException(infoMsg);
         }
 
-        String uuid = UUID.randomUUID().toString();
-
+        String uuid = MisRandUtil.uuid();
         systemParam.setUuid(uuid);
         systemParam.setCrtDate(new Date());
         systemParam.setState((byte)0);

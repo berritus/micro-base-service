@@ -30,6 +30,10 @@
             <groupId>com.berritus.core</groupId>
             <artifactId>mis-core-component</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.berritus.core</groupId>
+            <artifactId>mis-core-common</artifactId>
+        </dependency>
     </dependencies>
 
 

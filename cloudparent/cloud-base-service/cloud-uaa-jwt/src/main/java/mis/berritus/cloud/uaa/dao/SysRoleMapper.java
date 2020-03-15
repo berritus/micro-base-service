@@ -1,7 +1,7 @@
 package mis.berritus.cloud.uaa.dao;
 
 import mis.berritus.cloud.bean.uaa.SysRole;
-import mis.berritus.cloud.dao.MisDao;
+import com.berritus.mis.core.dao.MisDao;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

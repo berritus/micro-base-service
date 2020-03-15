@@ -1,6 +1,6 @@
 package mis.berritus.cloud.app.bean.uaa;
 
-import mis.berritus.cloud.bean.base.MisBean;
+import com.berritus.mis.core.bean.MisBean;
 
 public class MisJwt extends MisBean {
     private static final long serialVersionUID = 4542939056809269127L;

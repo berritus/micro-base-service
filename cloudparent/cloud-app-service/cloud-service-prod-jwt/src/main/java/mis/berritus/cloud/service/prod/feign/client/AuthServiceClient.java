@@ -16,6 +16,7 @@ public interface AuthServiceClient {
     @PostMapping("/mis/noauth/matchesUser")
     SysUser matchesUser(@RequestParam("username") String username, @RequestParam("password") String password);
 
+    // oauth/token 是固定的
     @PostMapping("/mis/oauth/token")
     MisJwt getToken2(@RequestHeader(value="Authorization")String authorization,
                      @RequestParam("grant_type") String type,

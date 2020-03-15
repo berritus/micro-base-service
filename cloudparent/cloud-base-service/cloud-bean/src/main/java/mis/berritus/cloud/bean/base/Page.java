@@ -1,7 +1,6 @@
-/**
- * 
- */
 package mis.berritus.cloud.bean.base;
+
+import com.berritus.mis.core.bean.MisBean;
 
 /**
  * @author Qin Guihe

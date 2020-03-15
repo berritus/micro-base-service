@@ -1,9 +1,11 @@
 package mis.berritus.cloud.bean.uaa;
 
+import com.berritus.mis.core.bean.MisBean;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class SysUser implements Serializable {
+public class SysUser extends MisBean {
     private static final long serialVersionUID = 8354858525034565650L;
     private Integer uid;
 

@@ -1,6 +1,6 @@
 package mis.berritus.cloud.app.bean.prod;
 
-import mis.berritus.cloud.bean.base.MisBean;
+import com.berritus.mis.core.bean.MisBean;
 
 import java.util.Date;
 

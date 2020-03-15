@@ -1,6 +1,6 @@
 package mis.berritus.cloud.bean.message;
 
-import mis.berritus.cloud.bean.base.MisBean;
+import com.berritus.mis.core.bean.MisBean;
 
 public class MisMessageRoute extends MisBean {
     private static final long serialVersionUID = -6342941725526957793L;

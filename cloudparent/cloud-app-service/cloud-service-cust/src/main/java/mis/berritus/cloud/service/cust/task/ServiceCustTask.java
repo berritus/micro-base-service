@@ -1,7 +1,7 @@
 package mis.berritus.cloud.service.cust.task;
 
 import com.berritus.mis.core.cache.lock.IRedisLock;
-import com.berritus.mis.core.component.thread.MisExecutors;
+import com.berritus.mis.core.common.thread.MisExecutors;
 import mis.berritus.cloud.app.bean.common.PeopleInfoDTO;
 import mis.berritus.cloud.app.common.constant.CloudServiceCustConstant;
 import mis.berritus.cloud.app.common.utils.RandomUtil;

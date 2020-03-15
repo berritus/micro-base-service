@@ -1,7 +1,7 @@
 package mis.berritus.cloud.app.bean.sonar;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import mis.berritus.cloud.bean.base.MisBean;
+import com.berritus.mis.core.bean.MisBean;
 
 import java.util.List;
 

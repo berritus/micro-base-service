@@ -27,6 +27,7 @@ public class DemoController {
     //@Qualifier("misAuthServiceClient")
     private AuthServiceClient authServiceClient;
 
+    // http://localhost:8096/prod/add
     @RequestMapping(method = RequestMethod.GET, value = "/prod/add")
     public SysProduct addTbSysProduct(){
         SysProduct prod = new SysProduct();
@@ -35,11 +36,13 @@ public class DemoController {
         return demoService.addTbSysProduct(prod);
     }
 
+    // http://localhost:8096/hi
     @RequestMapping(method = RequestMethod.GET, value = "/hi")
     public String hihi(){
         return "hi";
     }
 
+    // localhost:8096/hi/hello
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.GET, value = "/hi/hello")
     public String hello(){
@@ -62,6 +65,7 @@ public class DemoController {
         return oAuth2Authentication;
     }
 
+    // localhost:8096/user/login?username=admin&password=123456
     //@RequestMapping(method = RequestMethod.POST, value = "/user/login")
     @PostMapping("/user/login")
     public SysUserExt login(String username, String password){

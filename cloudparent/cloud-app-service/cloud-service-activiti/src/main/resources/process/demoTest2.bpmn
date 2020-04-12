@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1586689092503" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
+  <process id="addSalaryApply" isClosed="false" isExecutable="true" name="加薪申请流程" processType="None">
+    <startEvent id="startAalaryApply" name="StartEvent"/>
+    <userTask activiti:assignee="#{devManName}" activiti:exclusive="true" id="devManReviewed" name="开发经理审核"/>
+    <userTask activiti:assignee="#{deptManName}" activiti:exclusive="true" id="deptManReviewed" name="部门经理审核"/>
+    <endEvent id="endAalaryApply" name="EndEvent"/>
+    <userTask activiti:assignee="#{applyUserName}" activiti:exclusive="true" id="modifyApplay" name="调整申请"/>
+    <exclusiveGateway gatewayDirection="Unspecified" id="devCheck" name="ExclusiveGateway"/>
+    <exclusiveGateway gatewayDirection="Unspecified" id="deptCheck" name="ExclusiveGateway"/>
+    <exclusiveGateway gatewayDirection="Unspecified" id="RepeatApply" name="ExclusiveGateway"/>
+    <sequenceFlow id="_17" sourceRef="startAalaryApply" targetRef="devManReviewed"/>
+    <sequenceFlow id="_18" sourceRef="devManReviewed" targetRef="devCheck"/>
+    <sequenceFlow id="_19" name="开发经理同意" sourceRef="devCheck" targetRef="deptManReviewed">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${devManAgree == 0}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_20" name="开发经理驳回" sourceRef="devCheck" targetRef="modifyApplay">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${devManAgree == 1}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_21" sourceRef="modifyApplay" targetRef="RepeatApply"/>
+    <sequenceFlow id="_3" name="放弃申请" sourceRef="RepeatApply" targetRef="endAalaryApply">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isRepeatApply == 0}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_4" name="重新发起申请" sourceRef="RepeatApply" targetRef="devManReviewed">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isRepeatApply == 1}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_5" sourceRef="deptManReviewed" targetRef="deptCheck"/>
+    <sequenceFlow id="_6" name="部门经理驳回" sourceRef="deptCheck" targetRef="modifyApplay">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${deptManAgree == 0}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_7" name="部门经理同意" sourceRef="deptCheck" targetRef="endAalaryApply">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${deptManAgree == 1}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
+    <bpmndi:BPMNPlane bpmnElement="addSalaryApply">
+      <bpmndi:BPMNShape bpmnElement="startAalaryApply" id="Shape-startAalaryApply">
+        <omgdc:Bounds height="32.0" width="32.0" x="50.0" y="5.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="devManReviewed" id="Shape-devManReviewed">
+        <omgdc:Bounds height="55.0" width="85.0" x="25.0" y="110.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="deptManReviewed" id="Shape-deptManReviewed">
+        <omgdc:Bounds height="55.0" width="85.0" x="25.0" y="315.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endAalaryApply" id="Shape-endAalaryApply">
+        <omgdc:Bounds height="32.0" width="32.0" x="45.0" y="540.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="modifyApplay" id="Shape-modifyApplay">
+        <omgdc:Bounds height="55.0" width="85.0" x="205.0" y="200.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="devCheck" id="Shape-devCheck" isMarkerVisible="false">
+        <omgdc:Bounds height="32.0" width="32.0" x="50.0" y="210.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="deptCheck" id="Shape-deptCheck" isMarkerVisible="false">
+        <omgdc:Bounds height="32.0" width="32.0" x="45.0" y="430.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="RepeatApply" id="Shape-RepeatApply" isMarkerVisible="false">
+        <omgdc:Bounds height="32.0" width="32.0" x="385.0" y="220.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_17" id="BPMNEdge__17" sourceElement="_2" targetElement="devManReviewed">
+        <omgdi:waypoint x="66.0" y="37.0"/>
+        <omgdi:waypoint x="66.0" y="110.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_19" id="BPMNEdge__19" sourceElement="devCheck" targetElement="deptManReviewed">
+        <omgdi:waypoint x="66.0" y="242.0"/>
+        <omgdi:waypoint x="66.0" y="315.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_18" id="BPMNEdge__18" sourceElement="devManReviewed" targetElement="devCheck">
+        <omgdi:waypoint x="66.0" y="165.0"/>
+        <omgdi:waypoint x="66.0" y="210.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_3" id="BPMNEdge__3" sourceElement="RepeatApply" targetElement="_9">
+        <omgdi:waypoint x="400.0" y="251.0"/>
+        <omgdi:waypoint x="400.0" y="405.0"/>
+        <omgdi:waypoint x="77.0" y="556.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_4" id="BPMNEdge__4" sourceElement="RepeatApply" targetElement="devManReviewed">
+        <omgdi:waypoint x="417.0" y="236.0"/>
+        <omgdi:waypoint x="450.0" y="185.0"/>
+        <omgdi:waypoint x="110.0" y="137.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_5" id="BPMNEdge__5" sourceElement="deptManReviewed" targetElement="deptCheck">
+        <omgdi:waypoint x="61.0" y="370.0"/>
+        <omgdi:waypoint x="61.0" y="430.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="deptCheck" targetElement="modifyApplay">
+        <omgdi:waypoint x="77.0" y="446.0"/>
+        <omgdi:waypoint x="245.0" y="330.0"/>
+        <omgdi:waypoint x="245.0" y="255.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_7" id="BPMNEdge__7" sourceElement="deptCheck" targetElement="_9">
+        <omgdi:waypoint x="61.0" y="462.0"/>
+        <omgdi:waypoint x="61.0" y="540.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_20" id="BPMNEdge__20" sourceElement="devCheck" targetElement="modifyApplay">
+        <omgdi:waypoint x="82.0" y="226.0"/>
+        <omgdi:waypoint x="205.0" y="227.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_21" id="BPMNEdge__21" sourceElement="modifyApplay" targetElement="RepeatApply">
+        <omgdi:waypoint x="290.0" y="227.5"/>
+        <omgdi:waypoint x="385.0" y="236.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

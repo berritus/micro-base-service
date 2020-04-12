@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1586686249999" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
+  <process id="askLeave" isClosed="false" isExecutable="true" name="请假" processType="None">
+    <startEvent id="startLeave" name="StartEvent"/>
+    <userTask activiti:exclusive="true" id="studentAsk" name="学生请假"/>
+    <userTask activiti:exclusive="true" id="teacherDo" name="老师审批啊"/>
+    <endEvent id="endLeave" name="EndEvent"/>
+    <sequenceFlow id="_6" sourceRef="startLeave" targetRef="studentAsk"/>
+    <sequenceFlow id="_7" sourceRef="studentAsk" targetRef="teacherDo"/>
+    <sequenceFlow id="_8" sourceRef="teacherDo" targetRef="endLeave"/>
+  </process>
+  <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
+    <bpmndi:BPMNPlane bpmnElement="askLeave">
+      <bpmndi:BPMNShape bpmnElement="startLeave" id="Shape-startLeave">
+        <omgdc:Bounds height="32.0" width="32.0" x="105.0" y="65.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="studentAsk" id="Shape-studentAsk">
+        <omgdc:Bounds height="55.0" width="85.0" x="90.0" y="185.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="teacherDo" id="Shape-teacherDo">
+        <omgdc:Bounds height="55.0" width="85.0" x="85.0" y="320.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endLeave" id="Shape-endLeave">
+        <omgdc:Bounds height="32.0" width="32.0" x="95.0" y="475.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="startLeave" targetElement="studentAsk">
+        <omgdi:waypoint x="121.0" y="97.0"/>
+        <omgdi:waypoint x="121.0" y="185.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_7" id="BPMNEdge__7" sourceElement="studentAsk" targetElement="teacherDo">
+        <omgdi:waypoint x="130.0" y="240.0"/>
+        <omgdi:waypoint x="130.0" y="320.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="teacherDo" targetElement="endLeave">
+        <omgdi:waypoint x="111.0" y="375.0"/>
+        <omgdi:waypoint x="111.0" y="475.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

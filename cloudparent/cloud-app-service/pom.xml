@@ -23,6 +23,7 @@
         <module>cloud-service-elasticsearch</module>
         <module>cloud-service-mongodb</module>
         <module>cloud-service-activiti</module>
+        <module>cloud-service-chat-server</module>
     </modules>
 
 

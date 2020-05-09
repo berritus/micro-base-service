@@ -42,16 +42,16 @@ public class DemoServiceImpl implements DemoService {
         misCustBase.setState((byte)0);
         misCustBaseMapper.insert(misCustBase);
 
-        MisCustBaseExt misCustBaseExt = new MisCustBaseExt();
-        BeanUtils.copyProperties(misCustBase, misCustBaseExt);
-        misCustBaseExt.setEsIndex("cust_base");
-        misCustBaseExt.setEsType("customer");
-
-        misCustBaseExt = elasticSearchClient.insertMisCustBase(misCustBaseExt);
-        if (misCustBaseExt == null) {
-            logger.warn("注册失败！");
-            throw new RuntimeException("注册失败！");
-        }
+//        MisCustBaseExt misCustBaseExt = new MisCustBaseExt();
+//        BeanUtils.copyProperties(misCustBase, misCustBaseExt);
+//        misCustBaseExt.setEsIndex("cust_base");
+//        misCustBaseExt.setEsType("customer");
+//
+//        misCustBaseExt = elasticSearchClient.insertMisCustBase(misCustBaseExt);
+//        if (misCustBaseExt == null) {
+//            logger.warn("注册失败！");
+//            throw new RuntimeException("注册失败！");
+//        }
 
         return 0;
     }

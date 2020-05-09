@@ -85,7 +85,8 @@ public class MisChatServer {
                         }
                         //监听到 read
                         if (key.isReadable()) {
-                            readMsg(key); //读取客户端发来的数据
+                            //读取客户端发来的数据
+                            readMsg(key);
                         }
                         //一定要把当前 key 删掉，防止重复处理
                         iterator.remove();

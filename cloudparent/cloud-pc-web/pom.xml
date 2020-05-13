@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>cloud-sys-web</module>
+        <module>cloud-common-web</module>
     </modules>
 
 

@@ -40,7 +40,7 @@ public class LoginController {
     // http://localhost:8110
     @RequestMapping("/")
     public String index(Model model) {
-        return "study/main/login";
+        return "main/login";
     }
 
     // http://localhost:8110/index
@@ -49,7 +49,7 @@ public class LoginController {
         // model.addAttribute("message", "你好啊");
         String accessToken = request.getParameter("access_token");
         model.addAttribute("accessToken", accessToken);
-        return "study/main/index";
+        return "/main/ooa/index";
     }
 
     //用于获取当前用户token
@@ -75,22 +75,25 @@ public class LoginController {
             String password = loginInfo.getPassword();
             SysUser sysUser = authServiceClient.matchesUser(username, password);
 
-            if(sysUser != null){
-                //dXNlci1zZXJ2aWNlOjEyMzQ1Ng== 是 user-service:123456的 base64编码
-                String authStr = DESUtils.tranToBase64("cloud-common-web:q123456");
-                MisJwt jwt = authServiceClient.getToken2("Basic " + authStr,
-                        "password", username, password);
-                if(jwt == null){
-                    throw new RuntimeException("用户token错误");
-                }
+            if(sysUser == null){
+                throw new RuntimeException("账号密码错误，请检查！");
+            }
 
-                // sysUserExt.setSysUser(sysUser);
-                // sysUserExt.setMisJwt(jwt);
+            //dXNlci1zZXJ2aWNlOjEyMzQ1Ng== 是 user-service:123456的 base64编码
+            String authStr = DESUtils.tranToBase64("cloud-common-web:q123456");
+            MisJwt jwt = authServiceClient.getToken2("Basic " + authStr,
+                    "password", username, password);
+            if(jwt == null){
+                throw new RuntimeException("用户token错误");
+            }
 
-                map.put("code", 0);
-                map.put("msg", "登陆成功");
-                map.put("access_token", jwt.getAccess_token());
-                map.put("refresh_token", jwt.getRefresh_token());
+            // sysUserExt.setSysUser(sysUser);
+            // sysUserExt.setMisJwt(jwt);
+
+            map.put("code", 0);
+            map.put("msg", "登陆成功");
+            map.put("access_token", jwt.getAccess_token());
+            map.put("refresh_token", jwt.getRefresh_token());
 //                modelAndView.addObject("sysUser", sysUserExt);
 //                modelAndView.addObject("msg", "登陆成功");
 //                modelAndView.setViewName("study/main/index");
@@ -103,11 +106,11 @@ public class LoginController {
 //                ResponseEntity<String> response =  response = restTemplate.postForEntity("http://localhost:8081/product/1", requestEntity, String.class);
 //                resourceparams.add("access_token",acccessToken);
 //                request.getHeaders();
-            }
         } catch (Exception e) {
             logger.error("登陆失败，{}",e);
+            String errMsg = e.getMessage();
             map.put("code", -1);
-            map.put("msg", "登陆失败");
+            map.put("msg", errMsg);
         }
 
         return new ModelAndView(new MappingJackson2JsonView(), map);

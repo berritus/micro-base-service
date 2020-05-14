@@ -19,7 +19,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @EnableEurekaClient
 @ComponentScan({"mis.berritus.cloud.common.web"})
 @SpringBootApplication
-@EnableFeignClients(basePackages = {"mis.berritus.cloud.sys.web.feign.client"})
+@EnableFeignClients(basePackages = {"mis.berritus.cloud.common.web.feign.client"})
 @EnableHystrix//开启熔断器功能
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableHystrixDashboard//断路器仪表盘

@@ -23,12 +23,4 @@ public class AuthController {
         return principal;
     }
 
-    // 添加接入的服务 oauth_client_details表， 也就是在登陆验证的时候 authServiceClient.getToken2第一个参数加密的
-    @PostMapping("/add/client")
-    @PreAuthorize("hasAuthority('ROLE_OAUTH_CLIENT_ADMIN')")
-    public String insertOauthClientDetails(@RequestBody OauthClientDetails record){
-        authService.insertOauthClientDetails(record);
-        return "0";
-    }
-
 }

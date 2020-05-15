@@ -2,6 +2,7 @@ package mis.berritus.cloud.common.web.feign.client.fallback;
 
 
 import mis.berritus.cloud.app.bean.uaa.MisJwt;
+import mis.berritus.cloud.bean.uaa.OauthClientDetails;
 import mis.berritus.cloud.bean.uaa.SysUser;
 import mis.berritus.cloud.common.web.feign.client.AuthServiceClient;
 import org.springframework.stereotype.Component;
@@ -19,5 +20,13 @@ public class AuthServiceClientFallBack implements AuthServiceClient {
         return null;
     }
 
+    @Override
+    public String index(String str) {
+        return null;
+    }
 
+    @Override
+    public String oauthClientDetails(OauthClientDetails record) {
+        return null;
+    }
 }

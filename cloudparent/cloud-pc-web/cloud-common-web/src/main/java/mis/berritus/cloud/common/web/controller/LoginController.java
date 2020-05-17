@@ -4,6 +4,7 @@ import mis.berritus.cloud.app.bean.uaa.MisJwt;
 import mis.berritus.cloud.app.common.utils.DESUtils;
 import mis.berritus.cloud.bean.sys.service.LoginInfo;
 import mis.berritus.cloud.bean.uaa.SysUser;
+import mis.berritus.cloud.bean.uaa.SysUserDTO;
 import mis.berritus.cloud.common.web.feign.client.AuthServiceClient;
 import org.apache.tomcat.util.http.parser.Authorization;
 import org.slf4j.Logger;
@@ -73,7 +74,7 @@ public class LoginController {
             //SysUserExt sysUserExt = new SysUserExt();
             String username = loginInfo.getUsername();
             String password = loginInfo.getPassword();
-            SysUser sysUser = authServiceClient.matchesUser(username, password);
+            SysUserDTO sysUser = authServiceClient.matchesUser(username, password);
 
             if(sysUser == null){
                 throw new RuntimeException("账号密码错误，请检查！");

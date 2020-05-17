@@ -167,9 +167,6 @@ public class ElasticSearchServiceImpl implements IElasticSearchService {
         String url = elasticSearchCommon.getParamValue(SysConfigConstants.ELASTIC_SEARCH_HOST);
         url += misCustBaseExt.getEsIndex() + "/" + misCustBaseExt.getEsType() + "/_search";
 
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Content-type", "application/json");
-
         Map<String, Object> query = new HashMap<>();
 //
         QueryDTO queryDTO = new QueryDTO();
@@ -179,10 +176,12 @@ public class ElasticSearchServiceImpl implements IElasticSearchService {
         //query.put("match", JSON.toJSONString(misCustBase));
         queryDTO.setMatch(misCustBase);
 
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-type", "application/json");
         Map<String, Object> params = new HashMap<>();
         params.put("query", queryDTO);
         params.put("size", 10);
-//
+
         String result = HttpUtil.post(url, headers, params);
 
         return null;

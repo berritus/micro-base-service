@@ -1,8 +1,6 @@
 package mis.berritus.cloud.uaa.controller;
 
-import mis.berritus.cloud.bean.uaa.SysRole;
-import mis.berritus.cloud.bean.uaa.SysUser;
-import mis.berritus.cloud.bean.uaa.SysUserRole;
+import mis.berritus.cloud.bean.uaa.*;
 import mis.berritus.cloud.uaa.service.SysService;
 import mis.berritus.cloud.uaa.service.impl.SysUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +20,19 @@ public class SysController {
 
     @PostMapping("/role/add")
     @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')")
-    public int insertSysRole(@RequestBody SysRole record){
+    public int insertSysRole(@RequestBody SysRoleDTO record){
         SysUser sysUser = new SysUser();
         sysUser.setCrtDate(new Date());
         sysUser.setUserName("qingh");
         sysUser.setPassword("q123456");
         sysUser.setState(0);
-        sysUserService.insert(sysUser);
+        //sysUserService.insert(sysUser);
         return sysService.insertSysRole(record);
     }
 
     @PostMapping("/userRole/add")
     @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')")
-    public int insertSysUserRole(@RequestBody SysUserRole record){
+    public long insertSysUserRole(@RequestBody SysUserRoleDTO record){
         return sysService.insertSysUserRole(record);
     }
 

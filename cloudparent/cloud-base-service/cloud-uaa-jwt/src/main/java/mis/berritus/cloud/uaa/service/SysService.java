@@ -1,12 +1,13 @@
 package mis.berritus.cloud.uaa.service;
 
 
-import mis.berritus.cloud.bean.uaa.SysRole;
+import mis.berritus.cloud.bean.uaa.SysRoleDTO;
 import mis.berritus.cloud.bean.uaa.SysUser;
-import mis.berritus.cloud.bean.uaa.SysUserRole;
+import mis.berritus.cloud.bean.uaa.SysUserDTO;
+import mis.berritus.cloud.bean.uaa.SysUserRoleDTO;
 
 public interface SysService {
-    int insertSysRole(SysRole record);
-    int insertSysUserRole(SysUserRole record);
-    SysUser matchesUser(String username, String password);
+    int insertSysRole(SysRoleDTO record);
+    long insertSysUserRole(SysUserRoleDTO record);
+    SysUserDTO matchesUser(String username, String password);
 }

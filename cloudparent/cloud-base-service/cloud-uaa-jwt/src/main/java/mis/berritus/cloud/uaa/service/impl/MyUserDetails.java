@@ -1,7 +1,9 @@
 package mis.berritus.cloud.uaa.service.impl;
 
 import mis.berritus.cloud.bean.uaa.SysRole;
+import mis.berritus.cloud.bean.uaa.SysRoleDTO;
 import mis.berritus.cloud.bean.uaa.SysUser;
+import mis.berritus.cloud.bean.uaa.SysUserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,18 +16,18 @@ import java.util.List;
 public class MyUserDetails implements UserDetails {
     private String userName;
     private String password;
-    private List<SysRole> roles;
+    private List<SysRoleDTO> roles;
 
     public MyUserDetails(){
 
     }
 
-    public MyUserDetails(SysUser user){
+    public MyUserDetails(SysUserDTO user){
         this.userName = user.getUserName();
         this.password = user.getPassword();
     }
 
-    public MyUserDetails(SysUser user, List<SysRole> roles){
+    public MyUserDetails(SysUserDTO user, List<SysRoleDTO> roles){
         this.userName = user.getUserName();
         this.password = user.getPassword();
         this.roles = roles;
@@ -34,7 +36,7 @@ public class MyUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for(SysRole role : roles){
+        for(SysRoleDTO role : roles){
             authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
         }
         return authorities;
@@ -74,11 +76,11 @@ public class MyUserDetails implements UserDetails {
         return true;
     }
 
-    public List<SysRole> getRoles() {
+    public List<SysRoleDTO> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<SysRole> roles) {
+    public void setRoles(List<SysRoleDTO> roles) {
         this.roles = roles;
     }
 }

@@ -1,12 +1,10 @@
 package mis.berritus.cloud.uaa.service.impl;
 
-import mis.berritus.cloud.bean.uaa.SysRole;
-import mis.berritus.cloud.bean.uaa.SysUser;
-import mis.berritus.cloud.bean.uaa.SysUserRole;
+import mis.berritus.cloud.bean.uaa.*;
 import mis.berritus.cloud.common.utils.BPwdEncoderUtil;
-import mis.berritus.cloud.uaa.dao.SysRoleMapper;
-import mis.berritus.cloud.uaa.dao.SysUserMapper;
-import mis.berritus.cloud.uaa.dao.SysUserRoleMapper;
+import mis.berritus.cloud.uaa.dao.SysRoleDao;
+import mis.berritus.cloud.uaa.dao.SysUserDao;
+import mis.berritus.cloud.uaa.dao.SysUserRoleDao;
 import mis.berritus.cloud.uaa.service.SysService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,40 +15,40 @@ import java.util.Date;
 @Service
 public class SysServiceImpl implements SysService {
     @Autowired
-    private SysRoleMapper sysRoleMapper;
+    private SysRoleDao sysRoleDao;
     @Autowired
-    private SysUserRoleMapper sysUserRoleMapper;
+    private SysUserRoleDao sysUserRoleDao;
     @Autowired
-    private SysUserMapper sysUserMapper;
+    private SysUserDao sysUserDao;
 
     @Override
     @Transactional
-    public int insertSysRole(SysRole record) {
+    public int insertSysRole(SysRoleDTO record) {
         String roleName = record.getRoleName().toUpperCase();
 
-        SysRole role = sysRoleMapper.getRoleByName(roleName);
+        SysRoleDTO role = sysRoleDao.getRoleByName(roleName);
         if(role != null){
             throw new RuntimeException("该角色已经存在");
         }
 
         record.setRoleName(roleName);
         record.setCrtDate(new Date());
-        sysRoleMapper.insert(record);
+        sysRoleDao.insert(record);
 
-        return record.getRid();
+        return record.getSeqId();
     }
 
     @Override
     @Transactional
-    public int insertSysUserRole(SysUserRole record) {
+    public long insertSysUserRole(SysUserRoleDTO record) {
         record.setCrtDate(new Date());
-        sysUserRoleMapper.insert(record);
-        return record.getId();
+        sysUserRoleDao.insert(record);
+        return record.getSeqId();
     }
 
     @Override
-    public SysUser matchesUser(String username, String password) {
-        SysUser sysUser = sysUserMapper.selectByUserName(username);
+    public SysUserDTO matchesUser(String username, String password) {
+        SysUserDTO sysUser = sysUserDao.selectByUserName(username);
         if(sysUser == null){
             throw new RuntimeException("用户不存在");
         }

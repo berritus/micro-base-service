@@ -19,16 +19,30 @@
     authorities, access_token_validity, refresh_token_validity, additional_information, 
     autoapprove
   </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from oauth_client_details
     where client_id = #{clientId,jdbcType=VARCHAR}
   </select>
+
+  <select id="listOauthClientDetails" parameterType="oauthClientDetails" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from oauth_client_details
+    <where>
+      <if test="clientId != null and clientId != ''">
+        and client_id = #{clientId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from oauth_client_details
     where client_id = #{clientId,jdbcType=VARCHAR}
   </delete>
+
   <insert id="insert" parameterType="oauthClientDetails">
     insert into oauth_client_details (client_id, resource_ids, client_secret, 
       scope, authorized_grant_types, web_server_redirect_uri, 
@@ -39,6 +53,7 @@
       #{authorities,jdbcType=VARCHAR}, #{accessTokenValidity,jdbcType=INTEGER}, #{refreshTokenValidity,jdbcType=INTEGER}, 
       #{additionalInformation,jdbcType=VARCHAR}, #{autoapprove,jdbcType=VARCHAR})
   </insert>
+
   <insert id="insertSelective" parameterType="oauthClientDetails">
     insert into oauth_client_details
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -112,6 +127,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="oauthClientDetails">
     update oauth_client_details
     <set>
@@ -148,6 +164,7 @@
     </set>
     where client_id = #{clientId,jdbcType=VARCHAR}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="oauthClientDetails">
     update oauth_client_details
     set resource_ids = #{resourceIds,jdbcType=VARCHAR},

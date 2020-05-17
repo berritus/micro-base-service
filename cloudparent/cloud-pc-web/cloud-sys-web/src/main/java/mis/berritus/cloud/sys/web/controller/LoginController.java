@@ -5,6 +5,7 @@ import mis.berritus.cloud.app.bean.uaa.SysUserExt;
 import mis.berritus.cloud.app.common.utils.DESUtils;
 import mis.berritus.cloud.bean.sys.service.LoginInfo;
 import mis.berritus.cloud.bean.uaa.SysUser;
+import mis.berritus.cloud.bean.uaa.SysUserDTO;
 import mis.berritus.cloud.sys.web.feign.client.AuthServiceClient;
 import org.apache.tomcat.util.http.parser.Authorization;
 import org.slf4j.Logger;
@@ -78,7 +79,7 @@ public class LoginController {
             //SysUserExt sysUserExt = new SysUserExt();
             String username = loginInfo.getUsername();
             String password = loginInfo.getPassword();
-            SysUser sysUser = authServiceClient.matchesUser(username, password);
+            SysUserDTO sysUser = authServiceClient.matchesUser(username, password);
 
             if(sysUser != null){
                 //dXNlci1zZXJ2aWNlOjEyMzQ1Ng== 是 user-service:123456的 base64编码

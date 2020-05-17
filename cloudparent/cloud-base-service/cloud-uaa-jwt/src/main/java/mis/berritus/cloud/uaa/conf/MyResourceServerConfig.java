@@ -22,7 +22,7 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authenticationEntryPoint(new Http403ForbiddenEntryPoint())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/noauth/**").permitAll()
+                .antMatchers("/noauth/**", "/sys/user/**").permitAll()
                 .antMatchers("/**").authenticated()
                 .anyRequest().authenticated()
                 .and()

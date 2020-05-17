@@ -1,8 +1,10 @@
 package mis.berritus.cloud.bean.uaa;
 
+import com.berritus.mis.core.bean.MisBean;
+
 import java.io.Serializable;
 
-public class OauthClientDetails implements Serializable {
+public class OauthClientDetails extends MisBean {
     private static final long serialVersionUID = 4628097480728804887L;
     private String clientId;
 

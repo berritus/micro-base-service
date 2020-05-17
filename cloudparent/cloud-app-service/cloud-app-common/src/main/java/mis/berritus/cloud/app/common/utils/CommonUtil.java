@@ -1,11 +1,17 @@
 package mis.berritus.cloud.app.common.utils;
 
+import com.berritus.mis.core.bean.MisBean;
+import com.github.pagehelper.PageInfo;
 import mis.berritus.cloud.app.bean.common.ResultVO;
+import mis.berritus.cloud.bean.uaa.OauthClientDetails;
+import org.apache.poi.ss.formula.functions.T;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CommonUtil {
 
@@ -132,5 +138,19 @@ public class CommonUtil {
 		resultVO.setMsg(msg);
 
 		return resultVO;
+	}
+
+	public static Map<String, Object> getPageResultVO(PageInfo<T> plist, boolean successful) {
+		Map<String, Object> map = new HashMap<>();
+		if (successful) {
+			map.put("code", 0);
+			map.put("msg", "查询成功");
+			map.put("count", plist.getTotal());
+			map.put("data", plist.getList());
+		} else {
+			map.put("code", -1);
+			map.put("msg", "查询失败");
+		}
+		return map;
 	}
 }

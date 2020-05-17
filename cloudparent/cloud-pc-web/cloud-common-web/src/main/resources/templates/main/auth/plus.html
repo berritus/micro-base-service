@@ -47,20 +47,26 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label"><span class="red">*</span>系统ID：</label>
 								<div class="layui-input-block">
-									<input type="text" name="clientId" lay-verify="title" autocomplete="off" class="layui-input" style="width: 92%;">
+									<input type="text" name="clientId" lay-verify="clientId" autocomplete="off" class="layui-input" style="width: 92%;">
 								</div>
 							</div>
 							<div class="layui-form-item">
 								<label class="layui-form-label"><span class="red">*</span>认证密码：</label>
 								<div class="layui-input-block">
-									<input type="text" name="clientSecret" lay-verify="title" autocomplete="off" class="layui-input" style="width: 92%;" placeholder="q123456">
+									<input type="text" name="clientSecret" lay-verify="clientSecret" autocomplete="off" class="layui-input" style="width: 92%;" placeholder="q123456">
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span class="red">*</span>确认认证密码：</label>
+								<div class="layui-input-block">
+									<input type="text" name="clientSecret2" lay-verify="clientSecret2" autocomplete="off" class="layui-input" style="width: 92%;" placeholder="q123456">
 								</div>
 							</div>
 							<div class="layui-inline">
 								<label class="layui-form-label"><span class="red">*</span>作用域：</label>
 								<div class="layui-input-inline">
 									<select name="scope" lay-verify="required" lay-search="">
-										<option value="0">server</option>
+										<option value="server">server</option>
 									</select>
 								</div>
 							</div>
@@ -69,10 +75,10 @@
 								<div class="layui-input-inline">
 									<select name="accessTokenValidity" lay-verify="required" lay-search="">
 										<option value="1">1小时</option>
-										<option value="2">3小时</option>
-										<option value="3">12小时</option>
-										<option value="3">24小时</option>
-										<option value="0">永不</option>
+										<option value="3">3小时</option>
+										<option value="12">12小时</option>
+										<option value="24">24小时</option>
+										<option value="-1">永不</option>
 									</select>
 								</div>
 								<!--
@@ -90,9 +96,9 @@
 								<div class="layui-input-inline">
 									<select name="refreshTokenValidity" lay-verify="required" lay-search="">
 										<option value="1">1小时</option>
-										<option value="2">3小时</option>
-										<option value="3">12小时</option>
-										<option value="3">24小时</option>
+										<option value="3">3小时</option>
+										<option value="12">12小时</option>
+										<option value="24">24小时</option>
 									</select>
 								</div>
 							</div>
@@ -113,20 +119,12 @@
 							-->
 						</div>
 						<div class="layui-form-item layui-inline">
-							<button class="layui-btn layui-inline  fl w130" lay-submit lay-filter="save">保存</button>
-							<button class="layui-btn layui-btn-primary layui-inline fr w130"  id="closeBtn">取消</button>
+							<button class="layui-btn layui-inline  fl w130" lay-submit lay-filter="saveData">保存</button>
+							<button type="button" class="layui-btn layui-btn-primary layui-inline fr w130"  id="closeBtn">取消</button>
 						</div>
 					</form>
 				</div>
 			</fieldset>
-			<div class="layui-row">
-				<div class="layui-col-xs6">
-					<div class="grid-demo grid-demo-bg1">操作人:<span>zhangsjaj</span></div>
-				</div>
-				<div class="layui-col-xs6">
-					<div class="grid-demo">操作日期:<span>2017-02-09</span></div>
-				</div>
-			</div>
 		</div>
 	</body>
 	<script th:src="@{/js/main/jquery.js}" type="text/javascript"></script>
@@ -179,16 +177,20 @@
 
 			//自定义验证规则
 			form.verify({
-				title: function(value) {
-					if(value.length < 5) {
-						return '标题至少得5个字符啊';
+                clientId: function(value) {
+					if(value.length < 8) {
+						return '系统ID至少得8个字符！';
 					}
 				},
-				pass: [/(.+){6,12}$/, '密码必须6到12位']
+                clientSecret: [/(.+){6,12}$/, '认证密码必须6到12位'],
+                clientSecret2:function(value) {
+                    if($('input[name=clientSecret]').val() !== value)
+                        return '两次密码输入不一致！';
+                },
 			});
 
 			//监听提交
-			form.on('submit(save)', function(data) {
+			form.on('submit(saveData)', function(data) {
                 //console.log('open win save');
 				//layer.msg(JSON.stringify(data.field));
                 $.ajax({
@@ -219,7 +221,7 @@
 
             var obj = document.getElementById('closeBtn');
             obj.addEventListener('click', function cancel(){
-                 CloseWin();
+				CloseWin();
             });
 		});
 	</script>

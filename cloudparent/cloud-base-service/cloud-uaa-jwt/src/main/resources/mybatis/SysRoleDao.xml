@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mis.berritus.cloud.uaa.dao.SysRoleDao">
+  <resultMap id="BaseResultMap" type="mis.berritus.cloud.bean.uaa.SysRoleDTO">
+    <id column="seq_id" jdbcType="INTEGER" property="seqId" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="role_desc" jdbcType="VARCHAR" property="roleDesc" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="state_date" jdbcType="TIMESTAMP" property="stateDate" />
+    <result column="application_code" jdbcType="VARCHAR" property="applicationCode" />
+    <result column="crt_date" jdbcType="TIMESTAMP" property="crtDate" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    seq_id, uuid, role_name, role_desc, state, state_date, application_code, crt_date
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where seq_id = #{seqId,jdbcType=INTEGER}
+  </select>
+
+  <select id="getUserRoles" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select b.* from sys_user a, sys_role b, sys_user_role c
+    where a.uuid = c.uid and b.uuid = c.rid and a.state = 0 and a.user_name = #{userName,jdbcType=VARCHAR}
+  </select>
+  <select id="getResourceRoles" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select b.* from sys_role_resource a, sys_role b
+    where a.uuid = #{resId,jdbcType=INTEGER} and a.rid = b.uuid
+  </select>
+  <select id="getRoleByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_role
+    where role_name = #{roleName,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_role
+    where seq_id = #{seqId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="mis.berritus.cloud.bean.uaa.SysRoleDTO">
+    insert into sys_role (seq_id, uuid, role_name, 
+      role_desc, state, state_date, 
+      application_code, crt_date)
+    values (#{seqId,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, 
+      #{roleDesc,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, #{stateDate,jdbcType=TIMESTAMP}, 
+      #{applicationCode,jdbcType=VARCHAR}, #{crtDate,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="mis.berritus.cloud.bean.uaa.SysRoleDTO">
+    insert into sys_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="seqId != null">
+        seq_id,
+      </if>
+      <if test="uuid != null">
+        uuid,
+      </if>
+      <if test="roleName != null">
+        role_name,
+      </if>
+      <if test="roleDesc != null">
+        role_desc,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="stateDate != null">
+        state_date,
+      </if>
+      <if test="applicationCode != null">
+        application_code,
+      </if>
+      <if test="crtDate != null">
+        crt_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="seqId != null">
+        #{seqId,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleDesc != null">
+        #{roleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="stateDate != null">
+        #{stateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applicationCode != null">
+        #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="crtDate != null">
+        #{crtDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="mis.berritus.cloud.bean.uaa.SysRoleDTO">
+    update sys_role
+    <set>
+      <if test="uuid != null">
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null">
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleDesc != null">
+        role_desc = #{roleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="stateDate != null">
+        state_date = #{stateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applicationCode != null">
+        application_code = #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="crtDate != null">
+        crt_date = #{crtDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where seq_id = #{seqId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="mis.berritus.cloud.bean.uaa.SysRoleDTO">
+    update sys_role
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      role_name = #{roleName,jdbcType=VARCHAR},
+      role_desc = #{roleDesc,jdbcType=VARCHAR},
+      state = #{state,jdbcType=TINYINT},
+      state_date = #{stateDate,jdbcType=TIMESTAMP},
+      application_code = #{applicationCode,jdbcType=VARCHAR},
+      crt_date = #{crtDate,jdbcType=TIMESTAMP}
+    where seq_id = #{seqId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -3,6 +3,7 @@ package mis.berritus.cloud.sys.web.feign.client.fallback;
 
 import mis.berritus.cloud.app.bean.uaa.MisJwt;
 import mis.berritus.cloud.bean.uaa.SysUser;
+import mis.berritus.cloud.bean.uaa.SysUserDTO;
 import mis.berritus.cloud.sys.web.feign.client.AuthServiceClient;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class AuthServiceClientFallBack implements AuthServiceClient {
 
     @Override
-    public SysUser matchesUser(String userName, String password){
+    public SysUserDTO matchesUser(String userName, String password){
         return null;
     }
 

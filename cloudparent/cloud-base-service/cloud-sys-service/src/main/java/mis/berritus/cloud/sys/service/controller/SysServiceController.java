@@ -43,14 +43,6 @@ public class SysServiceController {
 
     @PostMapping("/listSysParams")
     public PageInfo<SystemParam> listSysParams(@RequestBody SystemParam systemParam) {
-        if (systemParam.getPageNum() == null) {
-            systemParam.setPageNum(1);
-        }
-
-        if (systemParam.getPageSize()== null) {
-            systemParam.setPageSize(10);
-        }
-
         PageInfo<SystemParam> plist = sysService.listSystemParams(systemParam);
         return plist;
     }

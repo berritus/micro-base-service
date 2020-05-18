@@ -1,6 +1,8 @@
 package mis.berritus.cloud.common.web.controller;
 
+import com.berritus.mis.core.common.utils.MisDateUtil;
 import com.berritus.mis.core.common.utils.MisRandUtil;
+import com.berritus.mis.core.common.utils.MisStringUtil;
 import com.github.pagehelper.PageInfo;
 import mis.berritus.cloud.app.bean.common.ResultVO;
 import mis.berritus.cloud.app.common.utils.CommonUtil;
@@ -200,11 +202,6 @@ public class SysController {
         return new ModelAndView(new MappingJackson2JsonView(), map);
     }
 
-//    @PreAuthorize("hasAuthority('ROLE_OAUTH_CLIENT_ADMIN')")
-//    @RequestMapping(method = RequestMethod.DELETE, value = "/cliet/details")
-//    public ModelAndView delOauthClientDetails(@RequestParam("clientId") String clientId) {
-//
-//    }
 
     @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')" + " || hasAuthority('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.GET, value = "/user")
@@ -222,6 +219,46 @@ public class SysController {
         }
 
         map.put("result", resultVO);
+        return new ModelAndView(new MappingJackson2JsonView(), map);
+    }
+
+    // , @RequestBody SysUserDTO sysUserDTO
+    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')" + " || hasAuthority('ROLE_ADMIN')")
+    @RequestMapping(method = RequestMethod.GET, value = "/users")
+    public ModelAndView listSysUsers(Integer page, Integer limit,
+                                     Long seqId, String uuid, String userName, String mobilePhone,
+                                     Integer state, Integer year){
+        Map<String, Object> map = new HashMap<>();
+        try {
+            SysUserDTO record = new SysUserDTO();
+            record.setState(state);
+            record.setSeqId(seqId);
+            record.setUuid(uuid);
+            record.setUserName(userName);
+            record.setMobilePhone(mobilePhone);
+            record.setPageNum(page);
+            record.setPageSize(limit);
+
+            if (year != null && year != 0) {
+                Date date1 = MisDateUtil.str2Date(year + "-01-01", "yyyy-MM-dd");
+                record.setCrtDate(date1);
+
+                year++;
+                Date date2 = MisDateUtil.str2Date(year + "-01-01", "yyyy-MM-dd");
+                record.setLimitDate(date2);
+            }
+
+            PageInfo<SysUserDTO> plist = authServiceClient.listSysUser(record);
+            map.put("data", plist.getList());
+            map.put("code", 0);
+            map.put("msg", "查询成功");
+            map.put("count", 1);
+        } catch (Exception e) {
+            logger.error("失败，{}",e);
+            map.put("code", -1);
+            map.put("msg", "查询失败");
+        }
+
         return new ModelAndView(new MappingJackson2JsonView(), map);
     }
 

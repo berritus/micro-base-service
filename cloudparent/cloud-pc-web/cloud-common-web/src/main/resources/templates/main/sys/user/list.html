@@ -28,28 +28,28 @@
 							<div class="layui-inline">
 								<label class="layui-form-label">用户序号：</label>
 								<div class="layui-input-inline">
-									<input type="text" name="uuid" lay-verify="required|uuid" autocomplete="off" class="layui-input">
+									<input type="text" id="seqId" name="seqId" lay-verify="required|seqId" autocomplete="off" class="layui-input">
 								</div>
 							</div>
 
 							<div class="layui-inline">
 								<label class="layui-form-label">用户ID：</label>
 								<div class="layui-input-inline">
-									<input type="text" name="uuid" lay-verify="required|uuid" autocomplete="off" class="layui-input">
+									<input type="text" id="uuid" name="uuid" lay-verify="required|uuid" autocomplete="off" class="layui-input">
 								</div>
 							</div>
 
 							<div class="layui-inline">
 								<label class="layui-form-label">用户名：</label>
 								<div class="layui-input-inline">
-									<input type="text" name="paramName" lay-verify="required|paramName" autocomplete="off" class="layui-input">
+									<input type="text" id="userName" name="userName" lay-verify="required|userName" autocomplete="off" class="layui-input">
 								</div>
 							</div>
 
 							<div class="layui-inline">
 								<label class="layui-form-label">手机号：</label>
 								<div class="layui-input-inline">
-									<input type="text" name="paramCode" lay-verify="required|paramCode" autocomplete="off" class="layui-input">
+									<input type="text" id="mobilePhone" name="mobilePhone" lay-verify="required|mobilePhone" autocomplete="off" class="layui-input">
 								</div>
 							</div>
 
@@ -70,7 +70,7 @@
 							<div class="layui-inline">
 								<label class="layui-form-label">状态：</label>
 								<div class="layui-input-inline">
-									<select name="modules" lay-verify="required" lay-search="">
+									<select id="state" name="state" lay-verify="required" lay-search="">
 										<option value="0">有效</option>
 										<option value="1">无效</option>
 									</select>
@@ -79,17 +79,17 @@
 							<div class="layui-inline">
 								<label class="layui-form-label">年份：</label>
 								<div class="layui-input-inline">
-									<select name="modules" lay-verify="required" lay-search="">
-										<option value="0">2020</option>
-										<option value="1">2019</option>
-										<option value="2">2018</option>
-										<option value="3">全部</option>
+									<select id="year" name="year" lay-verify="required" lay-search="">
+										<option value="2020">2020</option>
+										<option value="2019">2019</option>
+										<option value="2018">2018</option>
+										<option value="0">全部</option>
 									</select>
 								</div>
 							</div>
 						</div>
 
-						<button class="layui-btn layui-btn-normal" style="position:absolute;right:5%;top:14%;">搜索</button>
+						<button type="button" id="doSearch" class="layui-btn layui-btn-normal" data-type="reload" style="position:absolute;right:5%;top:14%;">搜索</button>
 					</form>
 				</div>
 			</fieldset>
@@ -132,7 +132,7 @@
 
             table.render({
                 elem: '#list_user'
-                , url: '/sys/user/list?access_token=' + access_token //数据接口
+                , url: '/sys/user/list?access_token=' + access_token
                 , cols: [
                     [
                         {field: 'seqId', width: 100, title: '用户序号', sort: true}
@@ -147,6 +147,7 @@
                         ,{fixed: 'right', title:'操作', toolbar: '#barClients', width:300}
                     ]
                 ]
+				, id : "userReload"
                 , page: true //开启分页
                 ,done: function(res, page, count){
                     $("[data-field='state']").children().each(function(){
@@ -157,6 +158,42 @@
                         }
                     })
                 }
+            });
+
+            // 执行搜索，表格重载
+            $('#doSearch').click(function () {
+				var seqId = $('#seqId').val();
+				var uuid = $('#uuid').val();
+				var userName = $('#userName').val();
+				var mobilePhone = $('#mobilePhone').val();
+				var state = $('#state').val();
+                var year = $('#year').val();
+
+                console.log("======doSearch seqId =" + seqId);
+                console.log("======doSearch uuid =" + uuid);
+                console.log("======doSearch userName =" + userName);
+				console.log("======doSearch mobilePhone =" + mobilePhone);
+                console.log("======doSearch state =" + state);
+                console.log("======doSearch year =" + year);
+				table.reload('userReload', {
+                    url: '/sys/users'
+					, methods: "get"
+					, request: {
+                        access_token: access_token
+					}
+                    ,where: {
+                        seqId: seqId
+                        , uuid: uuid
+                        , userName: userName
+                        , mobilePhone: mobilePhone
+                        , state: state
+                        , year: year
+						,access_token: access_token
+                    }
+					, page: {
+						curr: 1
+					}
+				});
             });
 
             //监听行工具事件
@@ -212,7 +249,6 @@
                                     obj.update({
                                         paramValue: value
                                     });
-                                    //alert("修改成功");
                                 }else{
                                     layer.msg("修改失败，" + data.msg);
                                 }
@@ -231,7 +267,6 @@
 
 	<script>
         var access_token = sessionStorage.getItem("access_token");
-		//layui.use('layer', function() { //独立版的layer无需执行这一句
 		layui.use('layer', function() { //独立版的layer无需执行这一句
 			var $ = layui.jquery,
 				layer = layui.layer; //独立版的layer无需执行这一句
@@ -282,6 +317,7 @@
 			});
 		});
 	</script>
+
 	<script>
 		layui.use('laydate', function() {
 			var laydate = layui.laydate;
@@ -294,21 +330,12 @@
 
 		});
 
-		//JavaScript代码区域
-		layui.use(['element', 'layer', 'form', 'laydate'], function() {
+		//layui.use(['element', 'layer', 'form', 'laydate'], function() {
+		layui.use(['table', 'layer', 'form'], function() {
+            var table = layui.table;
 			var element = layui.element;
 			var layer = layui.layer;
 			var form = layui.form;
-			var laydate = layui.laydate;
-			//一些事件监听
-			element.on('tab(demo)', function(data) {
-				layer.msg('切换了：' + this.innerHTML);
-
-			});
-
-			laydate.render({
-				elem: '#date'
-			});
 
 			//自定义验证规则
 			form.verify({

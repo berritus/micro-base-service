@@ -2,7 +2,6 @@ package mis.berritus.cloud.bean.uaa;
 
 import com.berritus.mis.core.bean.MisBean;
 
-import java.io.Serializable;
 import java.util.Date;
 
 public class SysRoleDTO extends MisBean {
@@ -101,7 +100,6 @@ public class SysRoleDTO extends MisBean {
         sb.append(", stateDate=").append(stateDate);
         sb.append(", applicationCode=").append(applicationCode);
         sb.append(", crtDate=").append(crtDate);
-        //sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
     }

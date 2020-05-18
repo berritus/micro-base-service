@@ -2,10 +2,10 @@ package mis.berritus.cloud.bean.uaa;
 
 import com.berritus.mis.core.bean.MisBean;
 
-import java.io.Serializable;
 import java.util.Date;
 
 public class SysResourceleDTO extends MisBean {
+    private static final long serialVersionUID = 7066389132146680023L;
     private Long seqId;
 
     private String uuid;

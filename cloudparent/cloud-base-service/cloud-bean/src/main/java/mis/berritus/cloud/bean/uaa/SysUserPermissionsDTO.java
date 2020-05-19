@@ -4,29 +4,29 @@ import com.berritus.mis.core.bean.MisBean;
 
 import java.util.Date;
 
-public class SysRoleDTO extends MisBean {
-
-    private Integer seqId;
+public class SysUserPermissionsDTO extends MisBean {
+    private static final long serialVersionUID = 7904538481164451094L;
+    private Long seqId;
 
     private String uuid;
 
-    private String roleName;
+    private String userId;
 
-    private String roleCode;
+    private String permissionId;
 
     private Byte state;
 
     private Date stateDate;
 
-    private String applicationCode;
-
     private Date crtDate;
 
-    public Integer getSeqId() {
+    private String applicationCode;
+
+    public Long getSeqId() {
         return seqId;
     }
 
-    public void setSeqId(Integer seqId) {
+    public void setSeqId(Long seqId) {
         this.seqId = seqId;
     }
 
@@ -38,20 +38,20 @@ public class SysRoleDTO extends MisBean {
         this.uuid = uuid == null ? null : uuid.trim();
     }
 
-    public String getRoleName() {
-        return roleName;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName == null ? null : roleName.trim();
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
     }
 
-    public String getRoleCode() {
-        return roleCode;
+    public String getPermissionId() {
+        return permissionId;
     }
 
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode == null ? null : roleCode.trim();
+    public void setPermissionId(String permissionId) {
+        this.permissionId = permissionId == null ? null : permissionId.trim();
     }
 
     public Byte getState() {
@@ -70,20 +70,20 @@ public class SysRoleDTO extends MisBean {
         this.stateDate = stateDate;
     }
 
-    public String getApplicationCode() {
-        return applicationCode;
-    }
-
-    public void setApplicationCode(String applicationCode) {
-        this.applicationCode = applicationCode == null ? null : applicationCode.trim();
-    }
-
     public Date getCrtDate() {
         return crtDate;
     }
 
     public void setCrtDate(Date crtDate) {
         this.crtDate = crtDate;
+    }
+
+    public String getApplicationCode() {
+        return applicationCode;
+    }
+
+    public void setApplicationCode(String applicationCode) {
+        this.applicationCode = applicationCode == null ? null : applicationCode.trim();
     }
 
     @Override
@@ -94,12 +94,12 @@ public class SysRoleDTO extends MisBean {
         sb.append("Hash = ").append(hashCode());
         sb.append(", seqId=").append(seqId);
         sb.append(", uuid=").append(uuid);
-        sb.append(", roleName=").append(roleName);
-        sb.append(", roleCode=").append(roleCode);
+        sb.append(", userId=").append(userId);
+        sb.append(", permissionId=").append(permissionId);
         sb.append(", state=").append(state);
         sb.append(", stateDate=").append(stateDate);
-        sb.append(", applicationCode=").append(applicationCode);
         sb.append(", crtDate=").append(crtDate);
+        sb.append(", applicationCode=").append(applicationCode);
         sb.append("]");
         return sb.toString();
     }

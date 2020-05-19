@@ -28,5 +28,8 @@ public class MisWebMvcConfig implements WebMvcConfigurer {
 
         registry.addViewController("/main/sys/user/list").setViewName("/main/sys/user/list");
         registry.addViewController("/main/sys/user/plus").setViewName("/main/sys/user/plus");
+
+        registry.addViewController("/main/sys/role/list").setViewName("/main/sys/role/list");
+        registry.addViewController("/main/sys/role/plus").setViewName("/main/sys/role/plus");
     }
 }

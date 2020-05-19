@@ -5,7 +5,7 @@
     <id column="seq_id" jdbcType="INTEGER" property="seqId" />
     <result column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
-    <result column="role_desc" jdbcType="VARCHAR" property="roleDesc" />
+    <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
     <result column="state" jdbcType="TINYINT" property="state" />
     <result column="state_date" jdbcType="TIMESTAMP" property="stateDate" />
     <result column="application_code" jdbcType="VARCHAR" property="applicationCode" />
@@ -13,7 +13,7 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    seq_id, uuid, role_name, role_desc, state, state_date, application_code, crt_date
+    seq_id, uuid, role_name, role_code, state, state_date, application_code, crt_date
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -27,15 +27,42 @@
     select b.* from sys_user a, sys_role b, sys_user_role c
     where a.uuid = c.uid and b.uuid = c.rid and a.state = 0 and a.user_name = #{userName,jdbcType=VARCHAR}
   </select>
+
   <select id="getResourceRoles" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select b.* from sys_role_resource a, sys_role b
     where a.uuid = #{resId,jdbcType=INTEGER} and a.rid = b.uuid
   </select>
+
   <select id="getRoleByName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from sys_role
     where role_name = #{roleName,jdbcType=INTEGER}
+  </select>
+
+  <select id="listSysRole" parameterType="mis.berritus.cloud.bean.uaa.SysRoleDTO" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_role
+    <where>
+      <if test="seqId != null">
+        and seq_id = #{seqId,jdbcType=BIGINT}
+      </if>
+      <if test="uuid != null and uuid != ''">
+        and uuid = #{uuid,jdbcType=VARCHAR}
+      </if>
+      <if test="roleName != null and roleName != ''">
+        <bind name="pattern" value="'%'+ roleName +'%'"/>
+        and role_name like #{pattern}
+      </if>
+      <if test="state != null">
+        and state = #{state,jdbcType=INTEGER}
+      </if>
+      <if test="crtDate != null">
+        and crt_date <![CDATA[ >= ]]> #{crtDate,jdbcType=INTEGER}
+        and crt_date <![CDATA[ < ]]> #{limitDate,jdbcType=INTEGER}
+      </if>
+    </where>
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -45,10 +72,10 @@
 
   <insert id="insert" parameterType="mis.berritus.cloud.bean.uaa.SysRoleDTO">
     insert into sys_role (seq_id, uuid, role_name, 
-      role_desc, state, state_date, 
+      role_code, state, state_date,
       application_code, crt_date)
     values (#{seqId,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, 
-      #{roleDesc,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, #{stateDate,jdbcType=TIMESTAMP}, 
+      #{roleCode,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, #{stateDate,jdbcType=TIMESTAMP},
       #{applicationCode,jdbcType=VARCHAR}, #{crtDate,jdbcType=TIMESTAMP})
   </insert>
 
@@ -64,8 +91,8 @@
       <if test="roleName != null">
         role_name,
       </if>
-      <if test="roleDesc != null">
-        role_desc,
+      <if test="roleCode != null">
+        role_code,
       </if>
       <if test="state != null">
         state,
@@ -90,8 +117,8 @@
       <if test="roleName != null">
         #{roleName,jdbcType=VARCHAR},
       </if>
-      <if test="roleDesc != null">
-        #{roleDesc,jdbcType=VARCHAR},
+      <if test="roleCode != null">
+        #{roleCode,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         #{state,jdbcType=TINYINT},
@@ -117,8 +144,8 @@
       <if test="roleName != null">
         role_name = #{roleName,jdbcType=VARCHAR},
       </if>
-      <if test="roleDesc != null">
-        role_desc = #{roleDesc,jdbcType=VARCHAR},
+      <if test="roleCode != null">
+        role_code = #{roleCode,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         state = #{state,jdbcType=TINYINT},
@@ -140,7 +167,7 @@
     update sys_role
     set uuid = #{uuid,jdbcType=VARCHAR},
       role_name = #{roleName,jdbcType=VARCHAR},
-      role_desc = #{roleDesc,jdbcType=VARCHAR},
+      role_code = #{roleCode,jdbcType=VARCHAR},
       state = #{state,jdbcType=TINYINT},
       state_date = #{stateDate,jdbcType=TIMESTAMP},
       application_code = #{applicationCode,jdbcType=VARCHAR},

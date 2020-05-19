@@ -1,4 +1,4 @@
-package mis.berritus.cloud.uaa.service.impl;
+package mis.berritus.cloud.uaa.service.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.ClientDetails;

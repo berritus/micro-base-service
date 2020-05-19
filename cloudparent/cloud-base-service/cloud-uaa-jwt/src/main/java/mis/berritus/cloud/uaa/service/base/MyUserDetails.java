@@ -1,8 +1,5 @@
-package mis.berritus.cloud.uaa.service.impl;
+package mis.berritus.cloud.uaa.service.base;
 
-import mis.berritus.cloud.bean.uaa.SysRole;
-import mis.berritus.cloud.bean.uaa.SysRoleDTO;
-import mis.berritus.cloud.bean.uaa.SysUser;
 import mis.berritus.cloud.bean.uaa.SysUserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,12 +8,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 
 public class MyUserDetails implements UserDetails {
     private String userName;
     private String password;
-    private List<SysRoleDTO> roles;
+    private Set<String> userPermissions;
 
     public MyUserDetails(){
 
@@ -27,17 +25,17 @@ public class MyUserDetails implements UserDetails {
         this.password = user.getPassword();
     }
 
-    public MyUserDetails(SysUserDTO user, List<SysRoleDTO> roles){
+    public MyUserDetails(SysUserDTO user, Set<String> userPermissions){
         this.userName = user.getUserName();
         this.password = user.getPassword();
-        this.roles = roles;
+        this.userPermissions = userPermissions;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for(SysRoleDTO role : roles){
-            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+        for(String permission : userPermissions){
+            authorities.add(new SimpleGrantedAuthority(permission));
         }
         return authorities;
     }
@@ -76,11 +74,11 @@ public class MyUserDetails implements UserDetails {
         return true;
     }
 
-    public List<SysRoleDTO> getRoles() {
-        return roles;
+    public Set<String> getUserPermissions() {
+        return userPermissions;
     }
 
-    public void setRoles(List<SysRoleDTO> roles) {
-        this.roles = roles;
+    public void setUserPermissions(Set<String> userPermissions) {
+        this.userPermissions = userPermissions;
     }
 }

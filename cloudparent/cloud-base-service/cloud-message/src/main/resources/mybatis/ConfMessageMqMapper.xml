@@ -2956,6 +2956,179 @@
     <result column="state" jdbcType="TINYINT" property="state" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
   </resultMap>
+  <sql id="Base_Column_List">
+    id, exchange_name, exchange_durable, exchange_auto_delete, queue_name, queue_durable, 
+    queue_auto_delete, queue_exclusive, routint_key, crt_date, state, modify_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from conf_message_mq
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from conf_message_mq
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="mis.berritus.cloud.bean.message.ConfMessageMq">
+    insert into conf_message_mq (id, exchange_name, exchange_durable, 
+      exchange_auto_delete, queue_name, queue_durable, 
+      queue_auto_delete, queue_exclusive, routint_key, 
+      crt_date, state, modify_date
+      )
+    values (#{id,jdbcType=BIGINT}, #{exchangeName,jdbcType=VARCHAR}, #{exchangeDurable,jdbcType=TINYINT}, 
+      #{exchangeAutoDelete,jdbcType=TINYINT}, #{queueName,jdbcType=VARCHAR}, #{queueDurable,jdbcType=TINYINT}, 
+      #{queueAutoDelete,jdbcType=TINYINT}, #{queueExclusive,jdbcType=TINYINT}, #{routintKey,jdbcType=VARCHAR}, 
+      #{crtDate,jdbcType=TIMESTAMP}, #{state,jdbcType=TINYINT}, #{modifyDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="mis.berritus.cloud.bean.message.ConfMessageMq">
+    insert into conf_message_mq
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="exchangeName != null">
+        exchange_name,
+      </if>
+      <if test="exchangeDurable != null">
+        exchange_durable,
+      </if>
+      <if test="exchangeAutoDelete != null">
+        exchange_auto_delete,
+      </if>
+      <if test="queueName != null">
+        queue_name,
+      </if>
+      <if test="queueDurable != null">
+        queue_durable,
+      </if>
+      <if test="queueAutoDelete != null">
+        queue_auto_delete,
+      </if>
+      <if test="queueExclusive != null">
+        queue_exclusive,
+      </if>
+      <if test="routintKey != null">
+        routint_key,
+      </if>
+      <if test="crtDate != null">
+        crt_date,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="exchangeName != null">
+        #{exchangeName,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeDurable != null">
+        #{exchangeDurable,jdbcType=TINYINT},
+      </if>
+      <if test="exchangeAutoDelete != null">
+        #{exchangeAutoDelete,jdbcType=TINYINT},
+      </if>
+      <if test="queueName != null">
+        #{queueName,jdbcType=VARCHAR},
+      </if>
+      <if test="queueDurable != null">
+        #{queueDurable,jdbcType=TINYINT},
+      </if>
+      <if test="queueAutoDelete != null">
+        #{queueAutoDelete,jdbcType=TINYINT},
+      </if>
+      <if test="queueExclusive != null">
+        #{queueExclusive,jdbcType=TINYINT},
+      </if>
+      <if test="routintKey != null">
+        #{routintKey,jdbcType=VARCHAR},
+      </if>
+      <if test="crtDate != null">
+        #{crtDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="mis.berritus.cloud.bean.message.ConfMessageMq">
+    update conf_message_mq
+    <set>
+      <if test="exchangeName != null">
+        exchange_name = #{exchangeName,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeDurable != null">
+        exchange_durable = #{exchangeDurable,jdbcType=TINYINT},
+      </if>
+      <if test="exchangeAutoDelete != null">
+        exchange_auto_delete = #{exchangeAutoDelete,jdbcType=TINYINT},
+      </if>
+      <if test="queueName != null">
+        queue_name = #{queueName,jdbcType=VARCHAR},
+      </if>
+      <if test="queueDurable != null">
+        queue_durable = #{queueDurable,jdbcType=TINYINT},
+      </if>
+      <if test="queueAutoDelete != null">
+        queue_auto_delete = #{queueAutoDelete,jdbcType=TINYINT},
+      </if>
+      <if test="queueExclusive != null">
+        queue_exclusive = #{queueExclusive,jdbcType=TINYINT},
+      </if>
+      <if test="routintKey != null">
+        routint_key = #{routintKey,jdbcType=VARCHAR},
+      </if>
+      <if test="crtDate != null">
+        crt_date = #{crtDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mis.berritus.cloud.bean.message.ConfMessageMq">
+    update conf_message_mq
+    set exchange_name = #{exchangeName,jdbcType=VARCHAR},
+      exchange_durable = #{exchangeDurable,jdbcType=TINYINT},
+      exchange_auto_delete = #{exchangeAutoDelete,jdbcType=TINYINT},
+      queue_name = #{queueName,jdbcType=VARCHAR},
+      queue_durable = #{queueDurable,jdbcType=TINYINT},
+      queue_auto_delete = #{queueAutoDelete,jdbcType=TINYINT},
+      queue_exclusive = #{queueExclusive,jdbcType=TINYINT},
+      routint_key = #{routintKey,jdbcType=VARCHAR},
+      crt_date = #{crtDate,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=TINYINT},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="mis.berritus.cloud.bean.message.ConfMessageMq">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="exchange_name" jdbcType="VARCHAR" property="exchangeName" />
+    <result column="exchange_durable" jdbcType="TINYINT" property="exchangeDurable" />
+    <result column="exchange_auto_delete" jdbcType="TINYINT" property="exchangeAutoDelete" />
+    <result column="queue_name" jdbcType="VARCHAR" property="queueName" />
+    <result column="queue_durable" jdbcType="TINYINT" property="queueDurable" />
+    <result column="queue_auto_delete" jdbcType="TINYINT" property="queueAutoDelete" />
+    <result column="queue_exclusive" jdbcType="TINYINT" property="queueExclusive" />
+    <result column="routint_key" jdbcType="VARCHAR" property="routintKey" />
+    <result column="crt_date" jdbcType="TIMESTAMP" property="crtDate" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+  </resultMap>
 
   <sql id="Base_Column_List">
     id, exchange_name, exchange_durable, exchange_auto_delete, queue_name, queue_durable, 

@@ -36,7 +36,7 @@ public class OauthController {
     @PreAuthorize("hasAuthority('ROLE_OAUTH_CLIENT_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, value = "/cliet/details")
     public ModelAndView addOauthClientDetails(@RequestBody OauthClientDetails record) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(10);
         ResultVO resultVO = null;
         try {
             authServiceClient.addOauthClientDetails(record);
@@ -55,7 +55,7 @@ public class OauthController {
     @PreAuthorize("hasAuthority('ROLE_OAUTH_CLIENT_ADMIN')")
     @RequestMapping(method = RequestMethod.GET, value = "/cliet/details/list")
     public ModelAndView getOauthClientDetails(Integer page, Integer limit) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(10);
         try {
             OauthClientDetails bean = new OauthClientDetails();
             bean.setPageNum(page);
@@ -79,7 +79,7 @@ public class OauthController {
     @PreAuthorize("hasAuthority('ROLE_OAUTH_CLIENT_ADMIN')")
     @RequestMapping(method = RequestMethod.DELETE, value = "/cliet/details")
     public ModelAndView delOauthClientDetails(@RequestParam("clientId") String clientId) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(10);
         ResultVO resultVO = null;
         try {
             boolean flag = authServiceClient.delOauthClientDetails(clientId);

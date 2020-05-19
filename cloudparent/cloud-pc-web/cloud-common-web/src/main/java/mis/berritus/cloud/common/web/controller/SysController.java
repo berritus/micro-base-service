@@ -7,6 +7,7 @@ import com.github.pagehelper.PageInfo;
 import mis.berritus.cloud.app.bean.common.ResultVO;
 import mis.berritus.cloud.app.common.utils.CommonUtil;
 import mis.berritus.cloud.bean.sys.service.SystemParam;
+import mis.berritus.cloud.bean.uaa.SysRoleDTO;
 import mis.berritus.cloud.bean.uaa.SysUserDTO;
 import mis.berritus.cloud.common.web.feign.client.AuthServiceClient;
 import mis.berritus.cloud.common.web.feign.client.SysServiceClient;
@@ -62,7 +63,7 @@ public class SysController {
 //        return "study/layui/user_add";
 //    }
 
-    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')" + " || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER_SUPER_ADMIN', 'ROLE_ADMIN','sys:param:add')")
     @PostMapping("/param/add")
     public ModelAndView insertSysParam(@RequestBody SystemParam systemParam) {
         Map<String, Object> map = new HashMap<>();
@@ -86,7 +87,8 @@ public class SysController {
         return new ModelAndView(new MappingJackson2JsonView(), map);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')" + " || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER_SUPER_ADMIN', 'ROLE_ADMIN', 'sys:param:view')")
+    //@PreAuthorize("hasAnyAuthority('sys:param:view')")
     @GetMapping("/param/list")
     public ModelAndView listSysParams(Integer page, Integer limit) {
         Map<String, Object> map = new HashMap<>();
@@ -113,7 +115,7 @@ public class SysController {
         return new ModelAndView(new MappingJackson2JsonView(), map);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')" + " || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER_SUPER_ADMIN', 'ROLE_ADMIN', 'sys:param:del')")
     @GetMapping("/param/del")
     public ModelAndView delSysParam(String paramId) {
         Map<String, Object> map = new HashMap<>();
@@ -134,7 +136,7 @@ public class SysController {
         return new ModelAndView(new MappingJackson2JsonView(), map);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')" + " || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER_SUPER_ADMIN', 'ROLE_ADMIN', 'sys:param:edit')")
     @PostMapping("/param/update")
     public ModelAndView updateSystemParam(@RequestBody SystemParam systemParam) {
         Map<String, Object> map = new HashMap<>();
@@ -156,7 +158,7 @@ public class SysController {
     }
 
 
-    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')" + " || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER_SUPER_ADMIN', 'ROLE_ADMIN', 'sys:user:view')")
     @GetMapping("/user/list")
     public ModelAndView listSysUser(Integer page, Integer limit) {
         Map<String, Object> map = new HashMap<>();
@@ -182,7 +184,7 @@ public class SysController {
         return new ModelAndView(new MappingJackson2JsonView(), map);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')" + " || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER_SUPER_ADMIN', 'ROLE_ADMIN', 'sys:user:add')")
     @RequestMapping(method = RequestMethod.POST, value = "/user")
     public ModelAndView insertSysUser(@RequestBody SysUserDTO record){
         Map<String, Object> map = new HashMap<>();
@@ -203,7 +205,7 @@ public class SysController {
     }
 
 
-    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')" + " || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER_SUPER_ADMIN', 'ROLE_ADMIN', 'sys:user:view')")
     @RequestMapping(method = RequestMethod.GET, value = "/user")
     public ModelAndView getSysUser(@RequestParam("userName") String userName){
         Map<String, Object> map = new HashMap<>();
@@ -223,7 +225,8 @@ public class SysController {
     }
 
     // , @RequestBody SysUserDTO sysUserDTO
-    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')" + " || hasAuthority('ROLE_ADMIN')")
+    //@PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')" + " || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER_SUPER_ADMIN', 'ROLE_ADMIN', 'sys:user:view')")
     @RequestMapping(method = RequestMethod.GET, value = "/users")
     public ModelAndView listSysUsers(Integer page, Integer limit,
                                      Long seqId, String uuid, String userName, String mobilePhone,
@@ -262,7 +265,8 @@ public class SysController {
         return new ModelAndView(new MappingJackson2JsonView(), map);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')" + " || hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER_SUPER_ADMIN', 'ROLE_ADMIN', 'sys:user:del')")
+    //@PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')" + " || hasAuthority('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.DELETE, value = "/user")
     public ModelAndView delSysUser(@RequestParam("seqId") Long seqId){
         Map<String, Object> map = new HashMap<>();
@@ -277,6 +281,29 @@ public class SysController {
         }
 
         map.put("result", resultVO);
+        return new ModelAndView(new MappingJackson2JsonView(), map);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ROLE_USER_SUPER_ADMIN', 'ROLE_ADMIN', 'sys:role:view')")
+    @GetMapping("/role/list")
+    public ModelAndView listSysRole(Integer page, Integer limit) {
+        Map<String, Object> map = new HashMap<>();
+        SysRoleDTO record = new SysRoleDTO();
+        try {
+            record.setState((byte)0);
+            record.setPageNum(page);
+            record.setPageSize(limit);
+            PageInfo<SysRoleDTO> plist = authServiceClient.listSysRole(record);
+            map.put("code", 0);
+            map.put("msg", "查询成功");
+            map.put("count", plist.getTotal());
+            map.put("data", plist.getList());
+        } catch (Exception e) {
+            logger.error("查询失败，{}，异常{}", record.toString(), e);
+            map.put("code", -1);
+            map.put("msg", "查询失败");
+        }
+
         return new ModelAndView(new MappingJackson2JsonView(), map);
     }
 }

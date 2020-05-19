@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import mis.berritus.cloud.app.bean.uaa.MisJwt;
 import mis.berritus.cloud.bean.sys.service.SystemParam;
 import mis.berritus.cloud.bean.uaa.OauthClientDetails;
+import mis.berritus.cloud.bean.uaa.SysRoleDTO;
 import mis.berritus.cloud.bean.uaa.SysUser;
 import mis.berritus.cloud.bean.uaa.SysUserDTO;
 import mis.berritus.cloud.common.web.feign.client.conf.DefaultFeignConfig;
@@ -37,6 +38,7 @@ public interface AuthServiceClient {
     @PostMapping("/mis/noauth/del/clients")
     boolean delOauthClientDetails(@RequestParam("clientId") String clientId);
 
+    /********user*********/
     @PostMapping("/mis/sys/user/list")
     PageInfo<SysUserDTO> listSysUser(@RequestBody SysUserDTO record);
 
@@ -48,4 +50,8 @@ public interface AuthServiceClient {
 
     @PostMapping("/mis/sys/user/del")
     void delSysUser(@RequestParam("seqId") Long seqId);
+
+    /********role*********/
+    @PostMapping("/mis/sys/role/list")
+    PageInfo<SysRoleDTO> listSysRole(@RequestBody SysRoleDTO record);
 }

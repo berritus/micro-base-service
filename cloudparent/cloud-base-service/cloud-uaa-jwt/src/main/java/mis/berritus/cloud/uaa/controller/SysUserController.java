@@ -47,12 +47,6 @@ public class SysUserController {
         return record;
     }
 
-//    @PreAuthorize("hasAuthority('ROLE_OAUTH_CLIENT_ADMIN')")
-//    @RequestMapping(method = RequestMethod.DELETE, value = "/cliet/details")
-//    public ModelAndView delOauthClientDetails(@RequestParam("clientId") String clientId) {
-//
-//    }
-
     @GetMapping("/get")
     public SysUserDTO getSysUser(@RequestParam("userName") String userName){
         return sysUserService.selectByUserName(userName);

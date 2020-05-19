@@ -4,6 +4,7 @@ package mis.berritus.cloud.common.web.feign.client.fallback;
 import com.github.pagehelper.PageInfo;
 import mis.berritus.cloud.app.bean.uaa.MisJwt;
 import mis.berritus.cloud.bean.uaa.OauthClientDetails;
+import mis.berritus.cloud.bean.uaa.SysRoleDTO;
 import mis.berritus.cloud.bean.uaa.SysUser;
 import mis.berritus.cloud.bean.uaa.SysUserDTO;
 import mis.berritus.cloud.common.web.controller.OauthController;
@@ -66,5 +67,10 @@ public class AuthServiceClientFallBack implements AuthServiceClient {
     @Override
     public void delSysUser(Long seqId) {
         logger.error("AuthServiceClientFallBack delSysUser");
+    }
+
+    @Override
+    public PageInfo<SysRoleDTO> listSysRole(SysRoleDTO record) {
+        return null;
     }
 }

@@ -1,18 +1,20 @@
-package mis.berritus.cloud.uaa.service.impl;
+package mis.berritus.cloud.uaa.service.base;
 
-import mis.berritus.cloud.bean.uaa.SysRole;
 import mis.berritus.cloud.bean.uaa.SysRoleDTO;
-import mis.berritus.cloud.bean.uaa.SysUser;
 import mis.berritus.cloud.bean.uaa.SysUserDTO;
 import mis.berritus.cloud.uaa.dao.SysRoleDao;
 import mis.berritus.cloud.uaa.dao.SysUserDao;
+import mis.berritus.cloud.uaa.dao.SysUserPermissionsDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service("myUserDetailsService")
 public class MyUserDetailsService implements UserDetailsService {
@@ -20,6 +22,9 @@ public class MyUserDetailsService implements UserDetailsService {
     private SysUserDao sysUserDao;
     @Autowired
     private SysRoleDao sysRoleDao;
+    @Autowired
+    private SysUserPermissionsDao sysUserPermissionsDao;
+
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
@@ -32,8 +37,21 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("没有该用户");
         }
 
+        Set<String> userPermissions = new HashSet<>(10);
         List<SysRoleDTO> userRoles = sysRoleDao.getUserRoles(userName);
+        if (!CollectionUtils.isEmpty(userRoles)) {
+            for (SysRoleDTO sysRoleDTO : userRoles) {
+                userPermissions.add(sysRoleDTO.getRoleCode());
+            }
+        }
 
-        return new MyUserDetails(user, userRoles);
+        List<String> userPermissionList = sysUserPermissionsDao.listUserPermissionCode(userName);
+        if (!CollectionUtils.isEmpty(userPermissionList)) {
+            for (String permission : userPermissionList) {
+                userPermissions.add(permission);
+            }
+        }
+
+        return new MyUserDetails(user, userPermissions);
     }
 }

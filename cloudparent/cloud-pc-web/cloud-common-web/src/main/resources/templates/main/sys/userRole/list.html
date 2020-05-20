@@ -26,23 +26,23 @@
 					<form class="layui-form" action="">
 						<div class="layui-form-item">
 							<div class="layui-inline">
-								<label class="layui-form-label">角色序号：</label>
+								<label class="layui-form-label">用户ID：</label>
 								<div class="layui-input-inline">
-									<input type="text" id="seqId" name="seqId" lay-verify="required|seqId" autocomplete="off" class="layui-input">
+									<input type="text" id="uid" name="uid" lay-verify="required|uid" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+
+							<div class="layui-inline">
+								<label class="layui-form-label">用户名：</label>
+								<div class="layui-input-inline">
+									<input type="text" id="userName" name="userName" lay-verify="required|userName" autocomplete="off" class="layui-input">
 								</div>
 							</div>
 
 							<div class="layui-inline">
 								<label class="layui-form-label">角色ID：</label>
 								<div class="layui-input-inline">
-									<input type="text" id="uuid" name="uuid" lay-verify="required|uuid" autocomplete="off" class="layui-input">
-								</div>
-							</div>
-
-							<div class="layui-inline">
-								<label class="layui-form-label">角色编码：</label>
-								<div class="layui-input-inline">
-									<input type="text" id="roleCode" name="roleCode" lay-verify="required|roleCode" autocomplete="off" class="layui-input">
+									<input type="text" id="rid" name="rid" lay-verify="required|rid" autocomplete="off" class="layui-input">
 								</div>
 							</div>
 
@@ -67,6 +67,12 @@
 						</div>
 						<!---->
 						<div class="layui-form-item">
+							<div class="layui-inline">
+								<label class="layui-form-label">角色编码：</label>
+								<div class="layui-input-inline">
+									<input type="text" id="roleCode" name="roleCode" lay-verify="required|roleCode" autocomplete="off" class="layui-input">
+								</div>
+							</div>
 							<div class="layui-inline">
 								<label class="layui-form-label">状态：</label>
 								<div class="layui-input-inline">
@@ -112,7 +118,7 @@
 				<fieldset class="layui-elem-field">
 					<div class="layui-field-box">
 						<div class="layui-form" style="margin-top: 30px;">
-							<table class="layui-hide" id="list_role" lay-filter="list_role"></table>
+							<table class="layui-hide" id="list_user_role" lay-filter="list_user_role"></table>
 						</div>
 					</div>
 				</fieldset>
@@ -132,15 +138,16 @@
             var access_token = sessionStorage.getItem("access_token");
 
             table.render({
-                elem: '#list_role'
-                , url: '/sys/role/list?access_token=' + access_token
+                elem: '#list_user_role'
+                , url: '/sys/user/role/list?access_token=' + access_token
                 , cols: [
                     [
-                        {field: 'seqId', width: 100, title: '角色序号', sort: true}
-                        , {field: 'uuid', width: 280, title: '角色ID'}
-                        , {field: 'roleCode', width: 300, title: '角色编码', sort: false}
-                        , {field: 'roleName', width: 300, title: '角色名', sort: false}
-                        , {field: 'state', title: '状态', width: 150}
+                        {field: 'uid', width: 280, title: '用户ID', sort: true}
+                        ,{field: 'rid', width: 280, title: '角色ID', sort: true}
+                        , {field: 'userName', width: 150, title: '用户名', sort: false}
+                        , {field: 'roleCode', width: 250, title: '角色编码', sort: false}
+                        , {field: 'roleName', width: 200, title: '角色名', sort: false}
+                        , {field: 'state', title: '状态', width: 100}
                         , {field: 'crtDate', width: 160, title: '创建时间', sort: true,
                         templet :function (row){
                             return createTime(row.crtDate);
@@ -148,7 +155,7 @@
                         ,{fixed: 'right', title:'操作', toolbar: '#barClients', width:300}
                     ]
                 ]
-				, id : "roleReload"
+				, id : "userRoleReload"
                 , page: true //开启分页
                 ,done: function(res, page, count){
                     $("[data-field='state']").children().each(function(){
@@ -163,28 +170,30 @@
 
             // 执行搜索，表格重载
             $('#doSearch').click(function () {
-				var seqId = $('#seqId').val();
-				var uuid = $('#uuid').val();
+				var rid = $('#rid').val();
+				var uid = $('#uid').val();
+				var userName = $('#userName').val();
 				var roleName = $('#roleName').val();
-				var roleCode = $('#roleCode').val();
+                var roleCode = $('#roleCode').val();
 				var state = $('#state').val();
                 var year = $('#year').val();
 
-                console.log("======doSearch seqId =" + seqId);
-                console.log("======doSearch uuid =" + uuid);
-                console.log("======doSearch roleName =" + roleName);
-				console.log("======doSearch roleCode =" + roleCode);
-                console.log("======doSearch state =" + state);
-                console.log("======doSearch year =" + year);
-				table.reload('userReload', {
-                    url: '/sys/users'
+                // console.log("======doSearch seqId =" + seqId);
+                // console.log("======doSearch uuid =" + uuid);
+                // console.log("======doSearch userName =" + userName);
+				// console.log("======doSearch mobilePhone =" + mobilePhone);
+                // console.log("======doSearch state =" + state);
+                // console.log("======doSearch year =" + year);
+				table.reload('userRoleReload', {
+                    url: '/sys/user/role'
 					, methods: "get"
 					, request: {
                         access_token: access_token
 					}
                     ,where: {
-                        seqId: seqId
-                        , uuid: uuid
+                        uid: uid
+                        , rid: rid
+                        , userName: userName
                         , roleName: roleName
                         , roleCode: roleCode
                         , state: state
@@ -198,7 +207,7 @@
             });
 
             //监听行工具事件
-            table.on('tool(list_role)', function(obj){ //注：tool是工具条事件名，sys_param是table原始容器的属性 lay-filter="对应的值"
+            table.on('tool(list_user_role)', function(obj){ //注：tool是工具条事件名，sys_param是table原始容器的属性 lay-filter="对应的值"
                 var data = obj.data; //获得当前行数据
                 if(obj.event === 'del'){
                     layer.confirm('确认删除', function(index){

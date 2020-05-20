@@ -18,27 +18,27 @@ public class SysController {
     @Autowired
     private SysUserServiceImpl sysUserService;
 
-    @PostMapping("/role/add")
-    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')")
-    public int insertSysRole(@RequestBody SysRoleDTO record){
-        SysUser sysUser = new SysUser();
-        sysUser.setCrtDate(new Date());
-        sysUser.setUserName("qingh");
-        sysUser.setPassword("q123456");
-        sysUser.setState(0);
-        //sysUserService.insert(sysUser);
-        return sysService.insertSysRole(record);
-    }
+//    @PostMapping("/role/add")
+//    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')")
+//    public int insertSysRole(@RequestBody SysRoleDTO record){
+//        SysUser sysUser = new SysUser();
+//        sysUser.setCrtDate(new Date());
+//        sysUser.setUserName("qingh");
+//        sysUser.setPassword("q123456");
+//        sysUser.setState(0);
+//        //sysUserService.insert(sysUser);
+//        return sysService.insertSysRole(record);
+//    }
 
-    @PostMapping("/userRole/add")
-    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')")
-    public long insertSysUserRole(@RequestBody SysUserRoleDTO record){
-        return sysService.insertSysUserRole(record);
-    }
-
-    @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')")
-    public String sysIndex(){
-        return "test auth sys";
-    }
+//    @PostMapping("/userRole/add")
+//    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')")
+//    public long insertSysUserRole(@RequestBody SysUserRoleDTO record){
+//        return sysService.insertSysUserRole(record);
+//    }
+//
+//    @GetMapping
+//    @PreAuthorize("hasAuthority('ROLE_USER_SUPER_ADMIN')")
+//    public String sysIndex(){
+//        return "test auth sys";
+//    }
 }

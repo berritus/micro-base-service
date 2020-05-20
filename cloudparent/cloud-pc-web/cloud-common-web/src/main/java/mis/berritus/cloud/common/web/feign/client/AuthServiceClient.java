@@ -7,6 +7,7 @@ import mis.berritus.cloud.bean.uaa.OauthClientDetails;
 import mis.berritus.cloud.bean.uaa.SysRoleDTO;
 import mis.berritus.cloud.bean.uaa.SysUser;
 import mis.berritus.cloud.bean.uaa.SysUserDTO;
+import mis.berritus.cloud.bean.uaa.ext.SysUserRoleDTOExt;
 import mis.berritus.cloud.common.web.feign.client.conf.DefaultFeignConfig;
 import mis.berritus.cloud.common.web.feign.client.fallback.AuthServiceClientFallBack;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -54,4 +55,14 @@ public interface AuthServiceClient {
     /********role*********/
     @PostMapping("/mis/sys/role/list")
     PageInfo<SysRoleDTO> listSysRole(@RequestBody SysRoleDTO record);
+
+    @PostMapping("/mis/sys/role/add")
+    SysRoleDTO insertSysRole(@RequestBody SysRoleDTO record);
+
+    @PostMapping("/mis/sys/role/del")
+    void delSysRole(@RequestParam("seqId") Long seqId);
+
+    /********user_role*********/
+    @PostMapping("/mis/sys/user/role/list")
+    PageInfo<SysUserRoleDTOExt> listSysUserRole(@RequestBody SysUserRoleDTOExt record);
 }

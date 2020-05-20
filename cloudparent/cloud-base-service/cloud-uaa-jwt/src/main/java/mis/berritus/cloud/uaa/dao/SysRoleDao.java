@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SysRoleDao extends MisDao<SysRoleDTO, Integer> {
+public interface SysRoleDao extends MisDao<SysRoleDTO, Long> {
     List<SysRoleDTO> getUserRoles(String userName);
 
     List<SysRoleDTO> getResourceRoles(Integer resId);

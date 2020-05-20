@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class SysRoleDTO extends MisBean {
 
-    private Integer seqId;
+    private Long seqId;
 
     private String uuid;
 
@@ -22,11 +22,11 @@ public class SysRoleDTO extends MisBean {
 
     private Date crtDate;
 
-    public Integer getSeqId() {
+    public Long getSeqId() {
         return seqId;
     }
 
-    public void setSeqId(Integer seqId) {
+    public void setSeqId(Long seqId) {
         this.seqId = seqId;
     }
 

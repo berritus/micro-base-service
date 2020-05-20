@@ -11,19 +11,71 @@
     <result column="crt_date" jdbcType="TIMESTAMP" property="crtDate" />
     <result column="application_code" jdbcType="VARCHAR" property="applicationCode" />
   </resultMap>
+
+  <resultMap id="BaseResultMap2" type="mis.berritus.cloud.bean.uaa.ext.SysUserRoleDTOExt">
+    <id column="seq_id" jdbcType="BIGINT" property="seqId" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="rid" jdbcType="VARCHAR" property="rid" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="state_date" jdbcType="TIMESTAMP" property="stateDate" />
+    <result column="crt_date" jdbcType="TIMESTAMP" property="crtDate" />
+    <result column="application_code" jdbcType="VARCHAR" property="applicationCode" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     seq_id, uuid, uid, rid, state, state_date, crt_date, application_code
   </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from sys_user_role
     where seq_id = #{seqId,jdbcType=BIGINT}
   </select>
+
+  <select id="listSysUserRole" parameterType="mis.berritus.cloud.bean.uaa.ext.SysUserRoleDTOExt"
+          resultMap="BaseResultMap2">
+    select a.uuid,a.uid,a.rid,a.state,a.crt_date,b.user_name,c.role_name,c.role_code from
+    sys_user_role a, sys_user b, sys_role c
+    <where>
+      <if test="uid != null and uid != ''">
+        and a.uid = #{uid,jdbcType=VARCHAR}
+      </if>
+      <if test="rid != null and rid != ''">
+        and a.rid = #{rid,jdbcType=VARCHAR}
+      </if>
+      <if test="roleCode != null and roleCode != ''">
+        and c.role_code = #{roleCode,jdbcType=VARCHAR}
+      </if>
+      <if test="roleName != null and roleName != ''">
+        <bind name="pattern" value="'%'+ roleName +'%'"/>
+        and c.role_name like #{pattern}
+      </if>
+      <if test="userName != null and userName != ''">
+        <bind name="pattern2" value="'%'+ userName +'%'"/>
+        and b.user_name like #{pattern2}
+      </if>
+      <if test="state != null">
+        and a.state = #{state,jdbcType=INTEGER}
+      </if>
+      <if test="crtDate != null">
+        and a.crt_date <![CDATA[ >= ]]> #{crtDate,jdbcType=INTEGER}
+        and a.crt_date <![CDATA[ < ]]> #{limitDate,jdbcType=INTEGER}
+      </if>
+
+      and a.uid = b.uuid and a.rid = c.uuid and b.state = 0 and c.state = 0
+    </where>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from sys_user_role
     where seq_id = #{seqId,jdbcType=BIGINT}
   </delete>
+
   <insert id="insert" parameterType="mis.berritus.cloud.bean.uaa.SysUserRoleDTO">
     insert into sys_user_role (seq_id, uuid, uid, 
       rid, state, state_date, 
@@ -32,6 +84,7 @@
       #{rid,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, #{stateDate,jdbcType=TIMESTAMP},
       #{crtDate,jdbcType=TIMESTAMP}, #{applicationCode,jdbcType=VARCHAR})
   </insert>
+
   <insert id="insertSelective" parameterType="mis.berritus.cloud.bean.uaa.SysUserRoleDTO">
     insert into sys_user_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -87,6 +140,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="mis.berritus.cloud.bean.uaa.SysUserRoleDTO">
     update sys_user_role
     <set>
@@ -114,6 +168,7 @@
     </set>
     where seq_id = #{seqId,jdbcType=BIGINT}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="mis.berritus.cloud.bean.uaa.SysUserRoleDTO">
     update sys_user_role
     set uuid = #{uuid,jdbcType=VARCHAR},

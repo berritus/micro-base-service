@@ -23,7 +23,7 @@ public class SysServiceImpl implements SysService {
 
     @Override
     @Transactional
-    public int insertSysRole(SysRoleDTO record) {
+    public long insertSysRole(SysRoleDTO record) {
         String roleName = record.getRoleName().toUpperCase();
 
         SysRoleDTO role = sysRoleDao.getRoleByName(roleName);

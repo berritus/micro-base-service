@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mis.berritus.cloud.uaa.dao.SysRoleDao">
   <resultMap id="BaseResultMap" type="mis.berritus.cloud.bean.uaa.SysRoleDTO">
-    <id column="seq_id" jdbcType="INTEGER" property="seqId" />
+    <id column="seq_id" jdbcType="BIGINT" property="seqId" />
     <result column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
     <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
@@ -16,11 +16,11 @@
     seq_id, uuid, role_name, role_code, state, state_date, application_code, crt_date
   </sql>
 
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from sys_role
-    where seq_id = #{seqId,jdbcType=INTEGER}
+    where seq_id = #{seqId,jdbcType=BIGINT}
   </select>
 
   <select id="getUserRoles" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -28,16 +28,16 @@
     where a.uuid = c.uid and b.uuid = c.rid and a.state = 0 and a.user_name = #{userName,jdbcType=VARCHAR}
   </select>
 
-  <select id="getResourceRoles" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="getResourceRoles" parameterType="java.lang.String" resultMap="BaseResultMap">
     select b.* from sys_role_resource a, sys_role b
-    where a.uuid = #{resId,jdbcType=INTEGER} and a.rid = b.uuid
+    where a.uuid = #{resId,jdbcType=VARCHAR} and a.rid = b.uuid
   </select>
 
   <select id="getRoleByName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from sys_role
-    where role_name = #{roleName,jdbcType=INTEGER}
+    where role_name = #{roleName,jdbcType=VARCHAR}
   </select>
 
   <select id="listSysRole" parameterType="mis.berritus.cloud.bean.uaa.SysRoleDTO" resultMap="BaseResultMap">
@@ -65,16 +65,16 @@
     </where>
   </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from sys_role
-    where seq_id = #{seqId,jdbcType=INTEGER}
+    where seq_id = #{seqId,jdbcType=BIGINT}
   </delete>
 
   <insert id="insert" parameterType="mis.berritus.cloud.bean.uaa.SysRoleDTO">
     insert into sys_role (seq_id, uuid, role_name, 
       role_code, state, state_date,
       application_code, crt_date)
-    values (#{seqId,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, 
+    values (#{seqId,jdbcType=BIGINT}, #{uuid,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR},
       #{roleCode,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, #{stateDate,jdbcType=TIMESTAMP},
       #{applicationCode,jdbcType=VARCHAR}, #{crtDate,jdbcType=TIMESTAMP})
   </insert>
@@ -109,7 +109,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="seqId != null">
-        #{seqId,jdbcType=INTEGER},
+        #{seqId,jdbcType=BIGINT},
       </if>
       <if test="uuid != null">
         #{uuid,jdbcType=VARCHAR},
@@ -160,7 +160,7 @@
         crt_date = #{crtDate,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where seq_id = #{seqId,jdbcType=INTEGER}
+    where seq_id = #{seqId,jdbcType=BIGINT}
   </update>
 
   <update id="updateByPrimaryKey" parameterType="mis.berritus.cloud.bean.uaa.SysRoleDTO">
@@ -172,6 +172,6 @@
       state_date = #{stateDate,jdbcType=TIMESTAMP},
       application_code = #{applicationCode,jdbcType=VARCHAR},
       crt_date = #{crtDate,jdbcType=TIMESTAMP}
-    where seq_id = #{seqId,jdbcType=INTEGER}
+    where seq_id = #{seqId,jdbcType=BIGINT}
   </update>
 </mapper>

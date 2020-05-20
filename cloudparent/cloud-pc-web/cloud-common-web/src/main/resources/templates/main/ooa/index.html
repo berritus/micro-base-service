@@ -170,7 +170,7 @@
 									<a th:href="@{'/main/sys/role/list?access_token=' + ${accessToken}}"><i class="layui-icon">&#xe60a;</i>角色管理</a>
 								</dd>
 								<dd>
-									<a th:href="@{'/main/sys/user/role/list?access_token=' + ${accessToken}}"><i class="layui-icon">&#xe60a;</i>用户角色管理</a>
+									<a th:href="@{'/main/sys/userRole/list?access_token=' + ${accessToken}}"><i class="layui-icon">&#xe60a;</i>用户角色管理</a>
 								</dd>
 							</dl>
 						</li>
@@ -181,10 +181,10 @@
 									<a href="setmealManage.html"><i class="layui-icon">&#xe6b2;</i>菜单管理</a>
 								</dd>
 								<dd>
-									<a href="setmealManage.html"><i class="layui-icon">&#xe6b2;</i>个人权限</a>
+									<a th:href="@{'/main/sys/userRole/list?access_token=' + ${accessToken}}"><i class="layui-icon">&#xe60a;</i>用户权限管理</a>
 								</dd>
 								<dd>
-									<a href="setmealManage.html"><i class="layui-icon">&#xe6b2;</i>角色权限</a>
+									<a th:href="@{'/main/sys/role/list?access_token=' + ${accessToken}}"><i class="layui-icon">&#xe60a;</i>角色权限管理</a>
 								</dd>
 							</dl>
 						</li>

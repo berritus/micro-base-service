@@ -2,6 +2,7 @@ package mis.berritus.cloud.uaa.service.base;
 
 import mis.berritus.cloud.bean.uaa.SysRoleDTO;
 import mis.berritus.cloud.bean.uaa.SysUserDTO;
+import mis.berritus.cloud.uaa.dao.SysPermissionsDao;
 import mis.berritus.cloud.uaa.dao.SysRoleDao;
 import mis.berritus.cloud.uaa.dao.SysUserDao;
 import mis.berritus.cloud.uaa.dao.SysUserPermissionsDao;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +26,8 @@ public class MyUserDetailsService implements UserDetailsService {
     private SysRoleDao sysRoleDao;
     @Autowired
     private SysUserPermissionsDao sysUserPermissionsDao;
+    @Autowired
+    private SysPermissionsDao sysPermissionsDao;
 
 
     @Override
@@ -45,10 +49,23 @@ public class MyUserDetailsService implements UserDetailsService {
             }
         }
 
+        List<String> listParentCode = new ArrayList<>();
+
         List<String> userPermissionList = sysUserPermissionsDao.listUserPermissionCode(userName);
         if (!CollectionUtils.isEmpty(userPermissionList)) {
             for (String permission : userPermissionList) {
                 userPermissions.add(permission);
+                listParentCode.add(permission);
+            }
+        }
+
+        listParentCode.add("22222");
+        if (!CollectionUtils.isEmpty(listParentCode)) {
+            List<String> listPermission = sysPermissionsDao.listPermissionCodeByParentCode(listParentCode);
+            if (!CollectionUtils.isEmpty(listPermission)) {
+                for (String permission : listPermission) {
+                    userPermissions.add(permission);
+                }
             }
         }
 

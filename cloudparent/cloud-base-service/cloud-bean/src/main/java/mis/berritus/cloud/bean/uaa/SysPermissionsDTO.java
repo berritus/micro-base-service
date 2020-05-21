@@ -12,6 +12,8 @@ public class SysPermissionsDTO extends MisBean {
 
     private String permissionCode;
 
+    private String parentCode;
+
     private String permissionName;
 
     private String permissionDesc;
@@ -94,6 +96,14 @@ public class SysPermissionsDTO extends MisBean {
 
     public void setApplicationCode(String applicationCode) {
         this.applicationCode = applicationCode == null ? null : applicationCode.trim();
+    }
+
+    public String getParentCode() {
+        return parentCode;
+    }
+
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
     }
 
     @Override

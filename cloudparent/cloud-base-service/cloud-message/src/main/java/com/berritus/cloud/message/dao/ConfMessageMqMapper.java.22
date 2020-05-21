@@ -1,0 +1,17 @@
+package com.berritus.cloud.message.dao;
+
+import mis.berritus.cloud.bean.message.ConfMessageMq;
+
+public interface ConfMessageMqMapper {
+    int deleteByPrimaryKey(Long id);
+
+    int insert(ConfMessageMq record);
+
+    int insertSelective(ConfMessageMq record);
+
+    ConfMessageMq selectByPrimaryKey(Long id);
+
+    int updateByPrimaryKeySelective(ConfMessageMq record);
+
+    int updateByPrimaryKey(ConfMessageMq record);
+}

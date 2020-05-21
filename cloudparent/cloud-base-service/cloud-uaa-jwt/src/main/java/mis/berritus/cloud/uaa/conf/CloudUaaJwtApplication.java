@@ -21,6 +21,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 //@EnableRedisHttpSession
 public class CloudUaaJwtApplication {
     public static void main(String[] args){
-        SpringApplication.run(CloudUaaJwtApplication.class);
+        SpringApplication.run(CloudUaaJwtApplication.class, args);
     }
 }

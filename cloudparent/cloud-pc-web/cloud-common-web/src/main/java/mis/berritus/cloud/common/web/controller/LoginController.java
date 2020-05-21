@@ -50,7 +50,7 @@ public class LoginController {
         // model.addAttribute("message", "你好啊");
         String accessToken = request.getParameter("access_token");
         model.addAttribute("accessToken", accessToken);
-        return "/main/ooa/index";
+        return "main/ooa/index";
     }
 
     //用于获取当前用户token
